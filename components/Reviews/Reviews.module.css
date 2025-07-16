@@ -1,0 +1,154 @@
+.reviews {
+  background: #faf8f3;
+  position: relative;
+  overflow: hidden;
+  padding: 8rem 0;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.textCenter {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.sectionSubtitle {
+  font-size: 0.9rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #d4af37;
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+  color: #2c1810;
+}
+
+.reviewsContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.reviewCard {
+  background: #ffffff;
+  padding: 3rem;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  margin-bottom: 2rem;
+}
+
+.reviewCard::before {
+  content: '"';
+  position: absolute;
+  top: -20px;
+  left: 30px;
+  font-family: "Playfair Display", serif;
+  font-size: 150px;
+  color: #d4af37;
+  opacity: 0.1;
+  line-height: 1;
+}
+
+.reviewCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.3);
+}
+
+.reviewContent {
+  position: relative;
+  z-index: 1;
+}
+
+.reviewText {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #2c1810;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+.reviewerInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.reviewerAvatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d4af37, #e8b4b8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #ffffff;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.reviewerDetails h4 {
+  font-family: "Playfair Display", serif;
+  color: #2c1810;
+  margin-bottom: 0.25rem;
+  font-size: 1.1rem;
+}
+
+.reviewMeta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.stars {
+  color: #d4af37;
+  display: flex;
+  gap: 0.2rem;
+}
+
+@media (max-width: 768px) {
+  .reviews {
+    padding: 6rem 0;
+  }
+
+  .reviewsContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .reviewCard {
+    padding: 2rem;
+  }
+
+  .reviewCard::before {
+    font-size: 100px;
+    top: -10px;
+    left: 20px;
+  }
+
+  .reviewText {
+    font-size: 1rem;
+  }
+
+  .reviewerAvatar {
+    width: 50px;
+    height: 50px;
+    font-size: 1rem;
+  }
+}
