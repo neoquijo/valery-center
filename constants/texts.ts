@@ -2,6 +2,16 @@ import type { TextContent, ServiceCategory } from "../types"
 
 export const TEXTS: Record<string, TextContent> = {
 
+  selectCategory: {
+    en: "Select category",
+    ru: "Выберете категорию"
+  },
+
+  serviceDescription: {
+    en: 'Service description',
+    ru: 'Описание сервиса'
+  },
+
   servicesCount: {
     ru: 'servicesCount',
     en: "servicesCount"

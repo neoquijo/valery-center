@@ -20,8 +20,6 @@ export interface ServiceSubcategory {
 
 export interface ServiceCategory {
   id: string
-  images: Array<string>
-  videos?: Array<string>
   name: {
     ru: string
     en: string
@@ -31,6 +29,8 @@ export interface ServiceCategory {
     en: string
   }
   icon: string
+  images?: string[]
+  videos?: string[]
   subcategories: ServiceSubcategory[]
 }
 
