@@ -36,8 +36,9 @@ export const Header: React.FC<HeaderProps> = ({ language, onLanguageChange }) =>
     <nav className={`${css.nav} ${isScrolled ? css.scrolled : ""}`}>
       <div className={css.container}>
         <div className={css.navContainer}>
-          <a href="#" className={css.logo}>
-            {TEXTS.siteTitle[language]}
+          <a href="#" className={`${css.logo} ${isScrolled ? css.logoScrolled : ""}`}>
+            <img className={`${css.logoImage} ${isScrolled ? css.logoImageScrolled : ""}`} src={isScrolled ? '/bg-scroll.png' : '/logo.png'}></img>
+            {/* {TEXTS.siteTitle[language]} */}
           </a>
 
           <div className={`${css.navLinks} ${isMenuOpen ? css.active : ""}`} id="navLinks">

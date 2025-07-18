@@ -8,9 +8,25 @@
 }
 
 .nav.scrolled {
-  background: rgba(10, 10, 10, 0.95);
+  background: #40544980;
   backdrop-filter: blur(20px) saturate(180%);
   padding: 1rem 2rem;
+}
+
+.logoImage {
+  width: 400px;
+}
+
+@media (max-width:540px) {
+  .logoImage {
+    width: 200px;
+  }
+}
+
+.logoImageScrolled {
+  transform: translateY(10px);
+  width: 200px !important;
+  height: 60px !important;
 }
 
 .container {
@@ -40,7 +56,7 @@
   flex-shrink: 0;
 }
 
-.logo::after {
+/* .logo::after {
   content: "";
   position: absolute;
   bottom: -5px;
@@ -53,7 +69,7 @@
 
 .logo:hover::after {
   width: 100%;
-}
+} */
 
 .navLinks {
   display: flex;

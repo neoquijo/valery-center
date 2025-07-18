@@ -1,5 +1,4 @@
 "use client"
-
 import type React from "react"
 import type { Language } from "../../types"
 import { TEXTS } from "../../constants/texts"
@@ -10,11 +9,6 @@ interface ContactProps {
 }
 
 export const Contact: React.FC<ContactProps> = ({ language }) => {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle form submission
-  }
-
   return (
     <section className={`${css.contact} section`} id="contact">
       <div className={css.container}>
@@ -56,38 +50,18 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
               <span>🚗 {TEXTS.parking[language]}</span>
             </div>
           </div>
-          <form className={css.contactForm} onSubmit={handleSubmit}>
-            <div className={css.formGroup}>
-              <input type="text" id="name" required placeholder=" " />
-              <label htmlFor="name">{TEXTS.yourName[language]}</label>
-            </div>
-            <div className={css.formGroup}>
-              <input type="tel" id="phone" required placeholder=" " />
-              <label htmlFor="phone">{TEXTS.yourPhone[language]}</label>
-            </div>
-            <div className={css.formGroup}>
-              <input type="email" id="email" required placeholder=" " />
-              <label htmlFor="email">{TEXTS.yourEmail[language]}</label>
-            </div>
-            <div className={css.formGroup}>
-              <select required defaultValue="">
-                <option value="" disabled>
-                  {TEXTS.selectService[language]}
-                </option>
-                <option value="massage">Массаж / Massage</option>
-                <option value="cosmetology">Косметология / Cosmetology</option>
-                <option value="nails">Ногтевой сервис / Nail Service</option>
-                <option value="hair">Парикмахерские услуги / Hair Services</option>
-              </select>
-            </div>
-            <div className={css.formGroup}>
-              <textarea id="message" rows={4} placeholder=" "></textarea>
-              <label htmlFor="message">{TEXTS.message[language]}</label>
-            </div>
-            <button type="submit" className={css.btnPrimary}>
-              {TEXTS.sendRequest[language]}
-            </button>
-          </form>
+          <div className={css.mapContainer}>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3141.234567!2d-0.7433516!3d37.909612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd63071a5eb96951%3A0x2cf942ed0c68cd79!2sC.%20Sector%20y-1%20Campoa-Sector%20Nort%2C%204M%2C%2003189%20Dehesa%20de%20Campoamor%2C%20Alicante!5e0!3m2!1sen!2ses!4v1234567890123"
+              width="100%"
+              height="400"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Valery Center Location"
+            />
+          </div>
         </div>
       </div>
     </section>

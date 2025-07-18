@@ -7,6 +7,11 @@ export const TEXTS: Record<string, TextContent> = {
     ru: "Выберете категорию"
   },
 
+  selectAnotherService: {
+    en: "Select another service",
+    "ru": "Выбрать другую услугу"
+  },
+
   serviceDescription: {
     en: 'Service description',
     ru: 'Описание сервиса'
@@ -173,12 +178,13 @@ export const SERVICES_DATA: ServiceCategory[] = [
       en: "Therapeutic, relaxing and lymphatic drainage massage from experienced specialists",
     },
     icon: "fas fa-spa",
-    images: ["https://i.ytimg.com/vi/OrrLSXofG5M/maxresdefault.jpg"],
+    images: ["https://i.ytimg.com/vi/OrrLSXofG5M/maxresdefault.jpg", "https://www.spacethespa.com/wp-content/uploads/revslider/Indiranagar%20Slider/Banner-16.jpg"],
+    videos: ['/video/1.mp4'],
     subcategories: [
       {
         id: "therapeutic",
         name: { ru: "Терапевтический", en: "Therapeutic" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        images: ["https://www.zastavki.com/pictures/1920x1080/2018Animals___Cats_Large_gray_cat_with_a_surprised_look_123712_23.jpg"],
       },
       {
         id: "lymphatic",
@@ -223,7 +229,7 @@ export const SERVICES_DATA: ServiceCategory[] = [
       en: "Modern hardware procedures for rejuvenation and correction",
     },
     icon: "fas fa-leaf",
-    images: ["/placeholder.svg?height=300&width=400"],
+    images: ["https://www.zastavki.com/pictures/1920x1080/2018Animals___Cats_Large_gray_cat_with_a_surprised_look_123712_23.jpg"],
     subcategories: [
       {
         id: "hifu",

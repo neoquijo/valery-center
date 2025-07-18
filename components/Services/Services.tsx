@@ -19,6 +19,7 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const servicesRef = useRef<HTMLElement>(null)
 
   // Get current images to display
   const getCurrentImages = () => {
@@ -44,7 +45,7 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
     if (images.length > 1 && isAutoPlaying) {
       intervalRef.current = setInterval(() => {
         setCurrentImageIndex((prev) => (prev + 1) % images.length)
-      }, 3000)
+      }, 4000)
     } else {
       if (intervalRef.current) {
         clearInterval(intervalRef.current)
@@ -63,6 +64,13 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
     setCurrentImageIndex(0)
   }, [selectedCategory, selectedService, hoveredCategory, hoveredService])
 
+  // Scroll to top on mobile when service is selected
+  useEffect(() => {
+    if (selectedService && window.innerWidth <= 768 && servicesRef.current) {
+      servicesRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [selectedService])
+
   const handleCategorySelect = (category: ServiceCategory) => {
     setSelectedCategory(category)
     setSelectedService(null)
@@ -78,6 +86,10 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
     setSelectedService(null)
     setHoveredCategory(null)
     setHoveredService(null)
+  }
+
+  const handleSelectAnotherService = () => {
+    setSelectedService(null)
   }
 
   const handlePrevImage = () => {
@@ -98,7 +110,13 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
   }
 
   return (
-    <section className={`${css.services} section`} id="services">
+    <section ref={servicesRef} className={`${css.services} section`} id="services">
+      <div className={css.backgroundDecoration}>
+        <div className={css.bgCircle1}></div>
+        <div className={css.bgCircle2}></div>
+        <div className={css.bgCircle3}></div>
+      </div>
+
       <div className={css.container}>
         <div className={css.header}>
           <p className={css.sectionSubtitle}>{TEXTS.services[language]}</p>
@@ -108,17 +126,20 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
         <div className={css.splitLayout}>
           {/* Left Side - Media Section */}
           <div className={css.mediaSection}>
+
             <div className={css.imageCarousel}>
               {images.length > 0 ? (
                 <>
-                  {images.map((image, index) => (
-                    <img
-                      key={`${image}-${index}`}
-                      src={image}
-                      alt=""
-                      className={`${css.carouselImage} ${index === currentImageIndex ? css.active : ''}`}
-                    />
-                  ))}
+                  <div className={css.imageContainer}>
+                    {images.map((image, index) => (
+                      <img
+                        key={`${image}-${index}`}
+                        src={image}
+                        alt=""
+                        className={`${css.carouselImage} ${index === currentImageIndex ? css.active : ''}`}
+                      />
+                    ))}
+                  </div>
                   {images.length > 1 && (
                     <>
                       <button
@@ -152,10 +173,19 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
                 </>
               ) : (
                 <div className={css.placeholderImage}>
+                  <div className={css.placeholderPattern}></div>
                   <div className={css.placeholderContent}>
-                    <i className="fas fa-spa"></i>
+                    <div className={css.logoText}>BEAUTY</div>
                     <p>{TEXTS.selectCategory[language]}</p>
                   </div>
+                </div>
+              )}
+
+              {/* Category/Service info overlay */}
+              {(selectedCategory || hoveredCategory) && !selectedService && (
+                <div className={css.imageOverlay}>
+                  <h3>{(hoveredCategory || selectedCategory)?.name[language]}</h3>
+                  <p>{(hoveredCategory || selectedCategory)?.description?.[language]}</p>
                 </div>
               )}
             </div>
@@ -166,65 +196,104 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
             {!selectedCategory ? (
               // Categories List
               <div className={css.categoriesList}>
-                <h3 className={css.listTitle}>{TEXTS.selectCategory[language]}</h3>
-                {SERVICES_DATA.map((category) => (
-                  <div
-                    key={category.id}
-                    className={css.categoryItem}
-                    onClick={() => handleCategorySelect(category)}
-                    onMouseEnter={() => setHoveredCategory(category)}
-                    onMouseLeave={() => setHoveredCategory(null)}
-                  >
-                    <div className={css.categoryItemContent}>
-                      <i className={category.icon}></i>
-                      <div className={css.categoryInfo}>
-                        <h4>{category.name[language]}</h4>
-                        <span>{category.subcategories.length} {TEXTS.servicesCount[language]}</span>
+                <h3 className={css.listTitle}>
+                  <span className={css.titleAccent}>{TEXTS.selectCategory[language]}</span>
+                </h3>
+                <div className={css.categoriesContainer}>
+                  <div className={css.categoriesGrid}>
+                    {SERVICES_DATA.map((category, index) => (
+                      <div
+                        key={category.id}
+                        className={css.categoryCard}
+                        onClick={() => handleCategorySelect(category)}
+                        onMouseEnter={() => setHoveredCategory(category)}
+                        onMouseLeave={() => setHoveredCategory(null)}
+                        style={{ animationDelay: `${index * 0.1}s` }}
+                      >
+                        <div className={css.categoryCardInner}>
+                          <div className={css.categoryContent}>
+                            <h4>{category.name[language]}</h4>
+                            <span className={css.serviceCount}>
+                              {category.subcategories.length} {TEXTS.servicesCount[language]}
+                            </span>
+                          </div>
+                          <div className={css.categoryArrow}>
+                            <i className="fas fa-arrow-right"></i>
+                          </div>
+                        </div>
+                        <div className={css.categoryHoverBg}></div>
                       </div>
-                    </div>
-                    <i className="fas fa-arrow-right"></i>
+                    ))}
                   </div>
-                ))}
+                </div>
               </div>
-            ) : (
+            ) : !selectedService ? (
               // Services List
               <div className={css.servicesList}>
-                <button className={css.backButton} onClick={handleBackToCategories}>
-                  <i className="fas fa-arrow-left"></i>
-                  {TEXTS.backToCategories[language]}
-                </button>
+                <div className={css.servicesHeader}>
+                  <button className={css.backButton} onClick={handleBackToCategories}>
+                    <i className="fas fa-arrow-left"></i>
+                    <span>{TEXTS.backToCategories[language]}</span>
+                  </button>
 
-                <h3 className={css.listTitle}>{selectedCategory.name[language]}</h3>
-
-                <div className={css.servicesGrid}>
-                  {selectedCategory.subcategories.map((service) => (
-                    <div
-                      key={service.id}
-                      className={`${css.serviceItem} ${selectedService?.id === service.id ? css.active : ''}`}
-                      onClick={() => handleServiceSelect(service)}
-                      onMouseEnter={() => setHoveredService(service)}
-                      onMouseLeave={() => setHoveredService(null)}
-                    >
-                      <h4>{service.name[language]}</h4>
-                      <i className="fas fa-arrow-right"></i>
-                    </div>
-                  ))}
+                  <div className={css.categoryHeader}>
+                    <h3 className={css.categoryName}>{selectedCategory.name[language]}</h3>
+                    {selectedCategory.description && (
+                      <p className={css.categoryDescription}>{selectedCategory.description[language]}</p>
+                    )}
+                  </div>
                 </div>
 
-                {selectedService && (
-                  <div className={css.serviceDetails}>
-                    <div className={css.serviceDetailHeader}>
-                      <h4>{TEXTS.serviceDescription[language]}</h4>
-                    </div>
-                    <h5>{selectedService.name[language]}</h5>
-                    {selectedService.description && (
-                      <p>{selectedService.description[language]}</p>
-                    )}
-                    <button className={css.bookButton} onClick={handleBooking}>
-                      <span>{TEXTS.bookNow[language]}</span>
-                    </button>
+                <div className={css.servicesContainer}>
+                  <div className={css.servicesGrid}>
+                    {selectedCategory.subcategories.map((service, index) => (
+                      <div
+                        key={service.id}
+                        className={css.serviceCard}
+                        onClick={() => handleServiceSelect(service)}
+                        onMouseEnter={() => setHoveredService(service)}
+                        onMouseLeave={() => setHoveredService(null)}
+                        style={{ animationDelay: `${index * 0.05}s` }}
+                      >
+                        <div className={css.serviceCardContent}>
+                          <h4>{service.name[language]}</h4>
+                          <div className={css.serviceArrow}>
+                            <i className="fas fa-arrow-right"></i>
+                          </div>
+                        </div>
+                        <div className={css.serviceCardBg}></div>
+                      </div>
+                    ))}
                   </div>
-                )}
+                </div>
+              </div>
+            ) : (
+              // Service Details
+              <div className={css.serviceDetails}>
+                <button className={css.changeServiceButton} onClick={handleSelectAnotherService}>
+                  <i className="fas fa-exchange-alt"></i>
+                  <span>{TEXTS.selectAnotherService[language]}</span>
+                </button>
+
+                <div className={css.serviceDetailContent}>
+                  <h3 className={css.serviceTitle}>{selectedService.name[language]}</h3>
+
+                  {selectedService.description && (
+                    <p className={css.serviceDescription}>{selectedService.description[language]}</p>
+                  )}
+
+                  {selectedService.price && (
+                    <div className={css.servicePrice}>
+                      <span className={css.priceLabel}>{TEXTS.priceFrom[language]}</span>
+                      <span className={css.priceValue}>{selectedService.price[language]}</span>
+                    </div>
+                  )}
+
+                  <button className={css.bookButton} onClick={handleBooking}>
+                    <span>{TEXTS.bookNow[language]}</span>
+                    <div className={css.buttonGlow}></div>
+                  </button>
+                </div>
               </div>
             )}
           </div>
