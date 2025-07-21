@@ -1,7 +1,8 @@
 /* Services.module.css */
 .services {
   height: 100vh;
-  background: #405449;
+  /* background: #354C44; */
+  /* background: url('https://cdn.wallpapersafari.com/4/47/3fyAju.jpg'); */
   position: relative;
   overflow: hidden;
   padding: 4rem 0;
@@ -10,52 +11,7 @@
 }
 
 /* Background Decoration */
-.backgroundDecoration {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
 
-.bgCircle1,
-.bgCircle2,
-.bgCircle3 {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.15;
-}
-
-.bgCircle1 {
-  width: 600px;
-  height: 600px;
-  background: #d4af37;
-  top: -200px;
-  left: -200px;
-  animation: float 20s ease-in-out infinite;
-}
-
-.bgCircle2 {
-  width: 800px;
-  height: 800px;
-  background: #e8b4b8;
-  bottom: -300px;
-  right: -300px;
-  animation: float 25s ease-in-out infinite reverse;
-}
-
-.bgCircle3 {
-  width: 400px;
-  height: 400px;
-  background: linear-gradient(45deg, #d4af37, #e8b4b8);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: pulse 15s ease-in-out infinite;
-}
 
 @keyframes float {
 
@@ -142,7 +98,7 @@
   gap: 3rem;
   flex: 1;
   min-height: 0;
-  opacity: 0;
+  opacity: 1;
   animation: fadeIn 0.8s ease 0.3s forwards;
 }
 
@@ -150,10 +106,18 @@
 .mediaSection {
   position: relative;
   height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50em;
 }
 
-.imageCarousel {
+.mediaCarousel {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
   border-radius: 30px;
@@ -162,25 +126,81 @@
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
 }
 
-.imageContainer {
+.mediaContainer {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
-.carouselImage {
+.mediaItem {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
   opacity: 0;
   transition: opacity 1s ease;
 }
 
-.carouselImage.active {
+.mediaItem.active {
   opacity: 1;
+}
+
+.carouselImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Video Thumbnail */
+.videoThumbnail {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.playButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.playButton:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.playButton i {
+  font-size: 1.5rem;
+  color: #354C44;
+  margin-left: 4px;
+}
+
+.videoDuration {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.8);
+  color: #ffffff;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  backdrop-filter: blur(10px);
 }
 
 /* Placeholder */
@@ -193,7 +213,6 @@
   justify-content: center;
   position: relative;
 }
-
 
 .placeholderPattern {
   position: absolute;
@@ -241,7 +260,7 @@
   transition: transform 0.5s ease;
 }
 
-.imageCarousel:hover .imageOverlay {
+.mediaCarousel:hover .imageOverlay {
   transform: translateY(0);
 }
 
@@ -276,7 +295,7 @@
   color: #ffffff;
 }
 
-.imageCarousel:hover .carouselButton {
+.mediaCarousel:hover .carouselButton {
   opacity: 1;
 }
 
@@ -319,294 +338,291 @@
   border-radius: 5px;
 }
 
-/* Content Section */
+.indicator.videoIndicator {
+  position: relative;
+}
+
+/* Продолжение стилей для Services.module.css */
+
+/* Видео-индикатор */
+.indicator.videoIndicator::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  background: #d4af37;
+  border-radius: 50%;
+}
+
+/* Content Section - Общие стили */
 .contentSection {
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-height: 0;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 30px;
+  padding: 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
 }
 
-/* Categories List */
-.categoriesList {
+.categoriesList,
+.servicesList,
+.serviceDetails {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  animation: fadeInRight 0.8s ease;
 }
 
 .listTitle {
-  font-family: "Playfair Display", serif;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #ffffff;
   margin-bottom: 1.5rem;
-  position: relative;
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
 
 .titleAccent {
   position: relative;
-  display: inline-block;
+  padding-bottom: 0.5rem;
 }
 
 .titleAccent::after {
-  content: "";
+  content: '';
   position: absolute;
-  bottom: -10px;
+  bottom: 0;
   left: 0;
-  width: 100px;
-  height: 4px;
-  background: linear-gradient(90deg, #d4af37, #e8b4b8);
+  width: 60px;
+  height: 3px;
+  background: #d4af37;
   border-radius: 2px;
 }
 
+/* Поиск */
+.searchContainer {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 3rem;
+  border-radius: 50px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.searchInput:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.5);
+}
+
+.searchContainer i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Сетка категорий */
 .categoriesContainer {
   flex: 1;
-  overflow: hidden;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: #d4af37 transparent;
 }
 
 .categoriesGrid {
-  height: 100%;
-  overflow-y: auto;
-  padding-right: 1rem;
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  align-content: start;
-}
-
-.categoriesGrid::-webkit-scrollbar {
-  width: 6px;
-}
-
-.categoriesGrid::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 3px;
-}
-
-.categoriesGrid::-webkit-scrollbar-thumb {
-  background: rgba(212, 175, 55, 0.3);
-  border-radius: 3px;
-}
-
-.categoriesGrid::-webkit-scrollbar-thumb:hover {
-  background: rgba(212, 175, 55, 0.5);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
 }
 
 .categoryCard {
   position: relative;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(212, 175, 55, 0.1);
+  height: 120px;
   border-radius: 20px;
-  /* overflow: hidden; */
+  overflow: hidden;
   cursor: pointer;
-  transition: all 0.4s ease;
+  transform: translateY(20px);
   opacity: 0;
-  animation: fadeInUp 0.6s ease forwards;
+  animation: cardAppear 0.5s ease forwards;
 }
 
-.categoryCard:hover {
-  transform: translateY(-5px);
-  border-color: rgba(212, 175, 55, 0.3);
-  box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+@keyframes cardAppear {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .categoryCardInner {
   position: relative;
   z-index: 2;
+  height: 100%;
   padding: 1.5rem;
   display: flex;
-  /* align-items: center !important; */
-  gap: 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 0.4s ease;
 }
 
-.categoryContent {
-  flex: 1;
-  text-align: center;
+.categoryCard:hover .categoryCardInner {
+  transform: translateY(-5px);
 }
 
 .categoryContent h4 {
-  font-family: "Playfair Display", serif;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+  font-weight: 600;
   color: #ffffff;
-  margin-bottom: 0.25rem;
-  transition: color 0.3s ease;
-}
-
-.categoryCard:hover .categoryContent h4 {
-  color: #d4af37;
+  margin-bottom: 0.3rem;
 }
 
 .serviceCount {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  display: block;
 }
 
 .categoryArrow {
-  color: rgba(212, 175, 55, 0.5);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.3s ease;
-  flex-shrink: 0;
+}
+
+.categoryArrow i {
+  color: #d4af37;
+  font-size: 0.9rem;
 }
 
 .categoryCard:hover .categoryArrow {
-  color: #d4af37;
+  background: rgba(212, 175, 55, 0.2);
   transform: translateX(5px);
 }
 
 .categoryHoverBg {
   position: absolute;
   top: 0;
-  left: -100%;
+  left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.05), transparent);
-  transition: left 0.6s ease;
+  background: linear-gradient(135deg, rgba(64, 84, 73, 0.7), rgba(212, 175, 55, 0.15));
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
 .categoryCard:hover .categoryHoverBg {
-  left: 100%;
+  opacity: 1;
 }
 
-/* Services List */
-.servicesList {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  animation: fadeInRight 0.8s ease;
-}
-
+/* Список услуг */
 .servicesHeader {
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
   margin-bottom: 1.5rem;
 }
 
 .backButton {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 0.75rem;
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
   color: #d4af37;
-  font-weight: 500;
   font-size: 0.95rem;
   cursor: pointer;
+  padding: 0.5rem 1rem 0.5rem 0;
   transition: all 0.3s ease;
-  padding: 0.75rem 1.5rem;
-  margin-bottom: 1.5rem;
-  border-radius: 50px;
 }
 
 .backButton:hover {
-  background: rgba(212, 175, 55, 0.2);
-  border-color: #d4af37;
-  transform: translateX(-5px);
+  gap: 0.7rem;
+  opacity: 0.9;
 }
 
 .backButton i {
-  transition: transform 0.3s ease;
-}
-
-.backButton:hover i {
-  transform: translateX(-3px);
+  font-size: 0.8rem;
 }
 
 .categoryHeader {
-  text-align: center;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  flex: 1;
 }
 
 .categoryName {
-  font-family: "Playfair Display", serif;
   font-size: 1.8rem;
   color: #ffffff;
   margin-bottom: 0.5rem;
+  font-weight: 700;
 }
 
 .categoryDescription {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.8);
   font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 .servicesContainer {
   flex: 1;
-  overflow: hidden;
-  margin-top: 1.5rem;
+  overflow-y: auto;
+  padding-right: 0.5rem;
 }
 
 .servicesGrid {
-  height: 100%;
-  overflow-y: auto;
-  padding-right: 1rem;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.75rem;
-  align-content: start;
-}
-
-.servicesGrid::-webkit-scrollbar {
-  width: 6px;
-}
-
-.servicesGrid::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 3px;
-}
-
-.servicesGrid::-webkit-scrollbar-thumb {
-  background: rgba(212, 175, 55, 0.3);
-  border-radius: 3px;
-}
-
-.servicesGrid::-webkit-scrollbar-thumb:hover {
-  background: rgba(212, 175, 55, 0.5);
+  gap: 0.8rem;
 }
 
 .serviceCard {
   position: relative;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(212, 175, 55, 0.1);
+  height: 80px;
   border-radius: 15px;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transform: translateY(20px);
   opacity: 0;
-  animation: fadeInUp 0.6s ease forwards;
-}
-
-.serviceCard:hover {
-  transform: translateX(10px);
-  border-color: rgba(212, 175, 55, 0.3);
-  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+  animation: cardAppear 0.5s ease forwards;
 }
 
 .serviceCardContent {
   position: relative;
   z-index: 2;
-  padding: 1.25rem 1.5rem;
+  height: 100%;
+  padding: 0 1.5rem;
   display: flex;
-  justify-content: center;
   align-items: center;
-  text-align: center;
+  justify-content: space-between;
+  transition: all 0.4s ease;
+}
+
+.serviceCard:hover .serviceCardContent {
+  transform: translateX(10px);
 }
 
 .serviceCardContent h4 {
-  font-family: "Playfair Display", serif;
   font-size: 1.1rem;
+  font-weight: 500;
   color: #ffffff;
-  margin: 0;
-  transition: color 0.3s ease;
-  flex: 1;
-}
-
-.serviceCard:hover .serviceCardContent h4 {
-  color: #d4af37;
 }
 
 .serviceArrow {
-  color: rgba(212, 175, 55, 0.5);
+  color: rgba(255, 255, 255, 0.7);
   transition: all 0.3s ease;
-  margin-left: 1rem;
 }
 
 .serviceCard:hover .serviceArrow {
@@ -617,47 +633,44 @@
 .serviceCardBg {
   position: absolute;
   top: 0;
-  left: -100%;
+  left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.05), transparent);
-  transition: left 0.6s ease;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.4s ease;
 }
 
 .serviceCard:hover .serviceCardBg {
-  left: 100%;
+  background: rgba(212, 175, 55, 0.1);
 }
 
-/* Service Details */
+/* Детали услуги */
 .serviceDetails {
+  position: relative;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  animation: fadeIn 0.5s ease;
 }
 
 .changeServiceButton {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 0.75rem;
-  background: rgba(232, 180, 184, 0.1);
-  border: 1px solid rgba(232, 180, 184, 0.2);
-  color: #e8b4b8;
-  font-weight: 500;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  padding: 0.75rem 1.5rem;
-  margin-bottom: 2rem;
-  align-self: flex-start;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #ffffff;
+  padding: 0.7rem 1.2rem;
   border-radius: 50px;
-  flex-shrink: 0;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  align-self: flex-start;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .changeServiceButton:hover {
-  background: rgba(232, 180, 184, 0.2);
-  border-color: #e8b4b8;
-  transform: translateY(-2px);
+  background: rgba(212, 175, 55, 0.2);
+  gap: 0.7rem;
 }
 
 .serviceDetailContent {
@@ -665,66 +678,56 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: center;
-  max-width: 500px;
-  margin: 0 auto;
 }
 
 .serviceTitle {
-  font-family: "Playfair Display", serif;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   color: #ffffff;
   margin-bottom: 1.5rem;
+  font-weight: 700;
   line-height: 1.2;
 }
 
 .serviceDescription {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 1.1rem;
-  line-height: 1.8;
+  line-height: 1.6;
   margin-bottom: 2rem;
+  max-width: 90%;
 }
 
 .servicePrice {
   display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.8rem;
   margin-bottom: 2rem;
-  font-family: "Playfair Display", serif;
 }
 
 .priceLabel {
-  color: rgba(255, 255, 255, 0.5);
   font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .priceValue {
-  font-size: 2.5rem;
-  color: #d4af37;
+  font-size: 1.8rem;
   font-weight: 700;
+  color: #d4af37;
 }
 
 .bookButton {
   position: relative;
-  padding: 1.5rem 3rem;
-  background: linear-gradient(135deg, #d4af37, #e8b4b8);
-  color: #0a0a0a;
+  align-self: flex-start;
+  background: linear-gradient(135deg, #d4af37, #c19b30);
   border: none;
-  border-radius: 60px;
+  color: #000000;
   font-weight: 600;
   font-size: 1.1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
   cursor: pointer;
-  transition: all 0.3s ease;
   overflow: hidden;
-  margin-top: auto;
-}
-
-.bookButton:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 20px 40px rgba(212, 175, 55, 0.4);
+  transition: all 0.3s ease;
+  z-index: 2;
 }
 
 .bookButton span {
@@ -732,86 +735,166 @@
   z-index: 2;
 }
 
+.bookButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+}
+
 .buttonGlow {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.6s ease;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent);
+  animation: glowAnimation 2s infinite;
+  opacity: 0;
+  z-index: 1;
 }
 
-.bookButton:hover .buttonGlow {
-  transform: translate(-50%, -50%) scale(2);
-}
-
-/* Animations */
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeIn {
-  from {
+@keyframes glowAnimation {
+  0% {
+    transform: translateX(-100%);
     opacity: 0;
   }
 
-  to {
+  50% {
     opacity: 1;
   }
-}
 
-@keyframes fadeInUp {
-  from {
+  100% {
+    transform: translateX(100%);
     opacity: 0;
-    transform: translateY(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 
-@keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+/* Видео модальное окно */
+.videoModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
 }
 
-/* Responsive Design */
+.videoModalContent {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  max-height: 90vh;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #000000;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+.videoWrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 177.78%;
+  /* 9:16 Aspect Ratio */
+  background: #000;
+}
+
+.modalVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.videoControls {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  z-index: 5;
+}
+
+.controlButton {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.controlButton:hover {
+  background: rgba(212, 175, 55, 0.3);
+  transform: scale(1.1);
+}
+
+.videoIndicators {
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  z-index: 5;
+}
+
+.videoIndicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.videoIndicator.active {
+  background: #d4af37;
+  transform: scale(1.2);
+}
+
+/* Адаптивность */
 @media (max-width: 1200px) {
-  .splitLayout {
-    gap: 2rem;
-  }
-
-  .container {
-    padding: 0 1.5rem;
-  }
-}
-
-@media (max-width: 992px) {
-  .services {
-    height: auto;
-    min-height: 100vh;
-    padding: 3rem 0;
-  }
-
   .splitLayout {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -819,22 +902,13 @@
 
   .mediaSection {
     height: 50vh;
-    min-height: 400px;
-  }
-
-  .contentSection {
-    height: auto;
-    min-height: 50vh;
-  }
-
-  .categoriesContainer,
-  .servicesContainer {
-    max-height: 400px;
   }
 }
 
 @media (max-width: 768px) {
   .services {
+    height: auto;
+    min-height: 100vh;
     padding: 2rem 0;
   }
 
@@ -842,134 +916,56 @@
     padding: 0 1rem;
   }
 
-  .header {
-    margin-bottom: 1.5rem;
-  }
-
-  .sectionTitle {
-    font-size: clamp(1.8rem, 6vw, 2.5rem);
-  }
-
   .splitLayout {
+    grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 
   .mediaSection {
-    height: 40vh;
-    min-height: 300px;
+    height: 400px;
   }
 
-  .imageCarousel {
-    border-radius: 20px;
-  }
-
-  .logoText {
-    font-size: 3rem;
-  }
-
-  .carouselButton {
-    width: 50px;
-    height: 50px;
-    opacity: 1;
-  }
-
-  .carouselButton.prev {
-    left: 1rem;
-  }
-
-  .carouselButton.next {
-    right: 1rem;
-  }
-
-  .listTitle {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-  }
-
-  .categoryCard {
-    border-radius: 15px;
-  }
-
-  .categoryCardInner {
-    padding: 2.25rem;
-    gap: 1rem;
-  }
-
-  .categoryContent h4 {
-    font-size: 1.2rem;
-  }
-
-  .backButton,
-  .changeServiceButton {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.9rem;
-  }
-
-  .categoryName {
-    font-size: 1.6rem;
-  }
-
-  .categoriesContainer,
-  .servicesContainer {
-    max-height: 350px;
-  }
-
-  .serviceCard {
-    border-radius: 12px;
-  }
-
-  .serviceCardContent {
-    padding: 1rem 1.25rem;
-  }
-
-  .serviceCardContent h4 {
-    font-size: 1rem;
+  .categoriesGrid {
+    grid-template-columns: 1fr;
   }
 
   .serviceTitle {
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    font-size: 1.8rem;
   }
 
-  .serviceDescription {
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
+  .videoModalContent {
+    max-width: 90%;
   }
 
-  .priceValue {
-    font-size: 2rem;
-  }
-
-  .bookButton {
-    padding: 1.25rem 2.5rem;
-    font-size: 1rem;
+  .controlButton {
+    width: 40px;
+    height: 40px;
   }
 }
 
 @media (max-width: 480px) {
-  .mediaSection {
-    height: 35vh;
-    min-height: 250px;
+  .contentSection {
+    padding: 1.5rem;
   }
 
-  .logoText {
-    font-size: 2.5rem;
+  .categoryCard {
+    height: 100px;
   }
 
-  .categoryContent h4 {
-    font-size: 1.1rem;
-  }
-
-  .serviceCardContent h4 {
-    font-size: 0.95rem;
+  .serviceCard {
+    height: 70px;
   }
 
   .serviceTitle {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 
-  .categoriesContainer,
-  .servicesContainer {
-    max-height: 300px;
+  .priceValue {
+    font-size: 1.5rem;
+  }
+
+  .bookButton {
+    width: 100%;
+    justify-content: center;
   }
 }

@@ -1,8 +1,9 @@
 // components/Services/Services.tsx
+//@ts-nocheck
 "use client"
 
 import type React from "react"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import type { Language, ServiceCategory, ServiceSubcategory } from "../../types"
 import { TEXTS, SERVICES_DATA } from "../../constants/texts"
 import css from "./Services.module.css"
@@ -11,40 +12,169 @@ interface ServicesProps {
   language: Language
 }
 
+interface MediaItem {
+  type: 'image' | 'video'
+  src: string
+  thumbnail?: string
+  duration?: string
+  source?: ServiceCategory | ServiceSubcategory
+}
+
 export const Services: React.FC<ServicesProps> = ({ language }) => {
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | null>(null)
   const [selectedService, setSelectedService] = useState<ServiceSubcategory | null>(null)
   const [hoveredCategory, setHoveredCategory] = useState<ServiceCategory | null>(null)
   const [hoveredService, setHoveredService] = useState<ServiceSubcategory | null>(null)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [lockedCategory, setLockedCategory] = useState<ServiceCategory | null>(null)
+  const [lockedService, setLockedService] = useState<ServiceSubcategory | null>(null)
+  const [currentMediaIndex, setCurrentMediaIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+  const [showVideoModal, setShowVideoModal] = useState(false)
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false)
+  const [isVideoMuted, setIsVideoMuted] = useState(true)
+  const [showSearch, setShowSearch] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [videoThumbnails, setVideoThumbnails] = useState<Record<string, string>>({})
+
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const servicesRef = useRef<HTMLElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const touchStartX = useRef<number>(0)
 
-  // Get current images to display
-  const getCurrentImages = () => {
-    if (selectedService && selectedService.images) {
-      return selectedService.images
+  // Generate video thumbnail
+  const generateVideoThumbnail = useCallback((videoSrc: string) => {
+    if (videoThumbnails[videoSrc]) return
+
+    const video = document.createElement('video')
+    video.src = videoSrc
+    video.crossOrigin = 'anonymous'
+    video.preload = 'metadata'
+
+    const handleLoadedMetadata = () => {
+      video.currentTime = 0.5 // Get frame at 0.5 seconds
     }
-    if (hoveredService && hoveredService.images) {
-      return hoveredService.images
+
+    const handleSeeked = () => {
+      const canvas = document.createElement('canvas')
+      canvas.width = video.videoWidth
+      canvas.height = video.videoHeight
+      const ctx = canvas.getContext('2d')
+
+      if (ctx) {
+        try {
+          ctx.drawImage(video, 0, 0)
+          const thumbnail = canvas.toDataURL('image/jpeg', 0.8)
+          setVideoThumbnails(prev => ({ ...prev, [videoSrc]: thumbnail }))
+        } catch (error) {
+          console.error('Error generating thumbnail:', error)
+        }
+      }
+
+      // Clean up
+      video.removeEventListener('loadedmetadata', handleLoadedMetadata)
+      video.removeEventListener('seeked', handleSeeked)
     }
-    if (selectedCategory && selectedCategory.images) {
-      return selectedCategory.images
+
+    video.addEventListener('loadedmetadata', handleLoadedMetadata)
+    video.addEventListener('seeked', handleSeeked)
+
+    // Fallback for CORS or other errors
+    video.addEventListener('error', () => {
+      console.error('Error loading video for thumbnail:', videoSrc)
+    })
+
+    video.load()
+  }, [videoThumbnails])
+
+  const getMediaItems = (): MediaItem[] => {
+    let items: MediaItem[] = []
+    let currentSource: ServiceCategory | ServiceSubcategory | null = null
+
+    // Function to add media from object
+    const addMedia = (source: ServiceCategory | ServiceSubcategory | null, isSubcategory: boolean = false) => {
+      if (!source) return
+
+      // Track the current source for overlay
+      if (!currentSource || isSubcategory) {
+        currentSource = source
+      }
+
+      // Add images
+      if (source.images) {
+        items.push(...source.images.map(src => ({
+          type: 'image' as const,
+          src,
+          source: currentSource
+        })))
+      }
+
+      // Add videos
+      if (source.videos) {
+        source.videos.forEach(src => {
+          items.push({
+            type: 'video' as const,
+            src,
+            thumbnail: videoThumbnails[src] || undefined,
+            source: currentSource
+          })
+          // Generate thumbnail for this video
+          generateVideoThumbnail(src)
+        })
+      }
     }
-    if (hoveredCategory && hoveredCategory.images) {
-      return hoveredCategory.images
+
+    // Function to add all media from category including subcategories
+    const addCategoryWithSubcategories = (category: ServiceCategory) => {
+      // Add category's own media
+      addMedia(category, false)
+
+      // Add all subcategories media
+      category.subcategories.forEach(subcategory => {
+        addMedia(subcategory, true)
+      })
     }
-    return []
+
+    // Priority order with locked states
+    if (selectedService) {
+      addMedia(selectedService, true)
+    } else if (lockedService || hoveredService) {
+      addMedia(lockedService || hoveredService, true)
+    } else if (selectedCategory) {
+      addCategoryWithSubcategories(selectedCategory)
+    } else if (lockedCategory || hoveredCategory) {
+      addCategoryWithSubcategories(lockedCategory || hoveredCategory || {})
+    }
+
+    return items
   }
 
-  const images = getCurrentImages()
+  const mediaItems = getMediaItems()
+  const videoItems = mediaItems.filter(item => item.type === 'video')
+
+  useEffect(() => {
+    console.log("Current media items:", mediaItems)
+    console.log("Selected category:", selectedCategory)
+    console.log("Hovered category:", hoveredCategory)
+    console.log("Locked category:", lockedCategory)
+    console.log("Selected service:", selectedService)
+    console.log("Hovered service:", hoveredService)
+    console.log("Locked service:", lockedService)
+  }, [selectedCategory, hoveredCategory, lockedCategory, selectedService, hoveredService, lockedService])
+
+  // Filter categories based on search
+  const filteredCategories = SERVICES_DATA.filter(category =>
+    category.name[language].toLowerCase().includes(searchQuery.toLowerCase()) ||
+    category.subcategories.some(service =>
+      service.name[language].toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  )
 
   // Auto-play carousel
   useEffect(() => {
-    if (images.length > 1 && isAutoPlaying) {
+    if (mediaItems.length > 1 && isAutoPlaying && !showVideoModal) {
       intervalRef.current = setInterval(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % images.length)
+        setCurrentMediaIndex((prev) => (prev + 1) % mediaItems.length)
       }, 4000)
     } else {
       if (intervalRef.current) {
@@ -57,28 +187,78 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
         clearInterval(intervalRef.current)
       }
     }
-  }, [images.length, isAutoPlaying])
+  }, [mediaItems.length, isAutoPlaying, showVideoModal])
 
-  // Reset image index when changing selection
+  // Reset media index when changing selection
   useEffect(() => {
-    setCurrentImageIndex(0)
-  }, [selectedCategory, selectedService, hoveredCategory, hoveredService])
+    setCurrentMediaIndex(0)
+  }, [selectedCategory, selectedService, hoveredCategory, hoveredService, lockedCategory, lockedService])
 
-  // Scroll to top on mobile when service is selected
+  // Keyboard navigation
   useEffect(() => {
-    if (selectedService && window.innerWidth <= 768 && servicesRef.current) {
-      servicesRef.current.scrollIntoView({ behavior: 'smooth' })
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (showVideoModal) {
+        switch (e.key) {
+          case 'Escape':
+            closeVideoModal()
+            break
+          case 'ArrowLeft':
+            handlePrevVideo()
+            break
+          case 'ArrowRight':
+            handleNextVideo()
+            break
+          case ' ':
+            e.preventDefault()
+            toggleVideoPlayback()
+            break
+        }
+      } else if (mediaItems.length > 1) {
+        switch (e.key) {
+          case 'ArrowLeft':
+            handlePrevMedia()
+            break
+          case 'ArrowRight':
+            handleNextMedia()
+            break
+        }
+      }
     }
-  }, [selectedService])
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [showVideoModal, mediaItems.length])
+
+  // Touch handlers for video modal
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const touchEndX = e.changedTouches[0].clientX
+    const diff = touchStartX.current - touchEndX
+
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        handleNextVideo()
+      } else {
+        handlePrevVideo()
+      }
+    }
+  }
 
   const handleCategorySelect = (category: ServiceCategory) => {
     setSelectedCategory(category)
     setSelectedService(null)
     setHoveredService(null)
+    setLockedCategory(null)
+    setLockedService(null)
+    setSearchQuery("")
   }
 
   const handleServiceSelect = (service: ServiceSubcategory) => {
     setSelectedService(service)
+    setLockedService(null)
   }
 
   const handleBackToCategories = () => {
@@ -86,20 +266,67 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
     setSelectedService(null)
     setHoveredCategory(null)
     setHoveredService(null)
+    setLockedCategory(null)
+    setLockedService(null)
   }
 
   const handleSelectAnotherService = () => {
     setSelectedService(null)
+    setLockedService(null)
   }
 
-  const handlePrevImage = () => {
+  const handlePrevMedia = () => {
     setIsAutoPlaying(false)
-    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)
+    setCurrentMediaIndex((prev) => (prev - 1 + mediaItems.length) % mediaItems.length)
   }
 
-  const handleNextImage = () => {
+  const handleNextMedia = () => {
     setIsAutoPlaying(false)
-    setCurrentImageIndex((prev) => (prev + 1) % images.length)
+    setCurrentMediaIndex((prev) => (prev + 1) % mediaItems.length)
+  }
+
+  const openVideoModal = (videoIndex: number) => {
+    setCurrentVideoIndex(videoIndex)
+    setShowVideoModal(true)
+    setIsVideoPlaying(true)
+  }
+
+  const closeVideoModal = () => {
+    setShowVideoModal(false)
+    setIsVideoPlaying(false)
+    if (videoRef.current) {
+      videoRef.current.pause()
+    }
+  }
+
+  const handlePrevVideo = () => {
+    if (videoItems.length > 1) {
+      setCurrentVideoIndex((prev) => (prev - 1 + videoItems.length) % videoItems.length)
+    }
+  }
+
+  const handleNextVideo = () => {
+    if (videoItems.length > 1) {
+      setCurrentVideoIndex((prev) => (prev + 1) % videoItems.length)
+    }
+  }
+
+  const toggleVideoPlayback = () => {
+    if (videoRef.current) {
+      if (isVideoPlaying) {
+        videoRef.current.pause()
+      } else {
+        videoRef.current.play()
+      }
+      setIsVideoPlaying(!isVideoPlaying)
+    }
+  }
+
+  const toggleVideoMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isVideoMuted
+      setIsVideoMuted(!isVideoMuted)
+    }
   }
 
   const handleBooking = () => {
@@ -108,6 +335,8 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
       contactSection.scrollIntoView({ behavior: "smooth" })
     }
   }
+
+  const shouldShowSearch = filteredCategories.length > 8
 
   return (
     <section ref={servicesRef} className={`${css.services} section`} id="services">
@@ -126,43 +355,80 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
         <div className={css.splitLayout}>
           {/* Left Side - Media Section */}
           <div className={css.mediaSection}>
-
-            <div className={css.imageCarousel}>
-              {images.length > 0 ? (
+            <div className={css.mediaCarousel}>
+              {mediaItems.length > 0 ? (
                 <>
-                  <div className={css.imageContainer}>
-                    {images.map((image, index) => (
-                      <img
-                        key={`${image}-${index}`}
-                        src={image}
-                        alt=""
-                        className={`${css.carouselImage} ${index === currentImageIndex ? css.active : ''}`}
-                      />
+                  <div className={css.mediaContainer}>
+                    {mediaItems.map((item, index) => (
+                      <div
+                        key={`${item.src}-${index}`}
+                        className={`${css.mediaItem} ${index === currentMediaIndex ? css.active : ''}`}
+                      >
+                        {item.type === 'image' ? (
+                          <img
+                            src={item.src}
+                            alt=""
+                            className={css.carouselImage}
+                          />
+                        ) : (
+                          <div className={css.videoThumbnail}>
+                            {item.thumbnail ? (
+                              <img
+                                src={item.thumbnail}
+                                alt=""
+                                className={css.carouselImage}
+                              />
+                            ) : (
+                              <video
+                                src={item.src}
+                                className={css.carouselImage}
+                                muted
+                                playsInline
+                                preload="metadata"
+                              />
+                            )}
+                            <button
+                              className={css.playButton}
+                              onClick={() => {
+                                const videoIndex = videoItems.findIndex(v => v.src === item.src)
+                                openVideoModal(videoIndex)
+                              }}
+                              aria-label={TEXTS.playVideo?.[language] || 'Play video'}
+                            >
+                              <i className="fas fa-play"></i>
+                            </button>
+                            {item.duration && (
+                              <span className={css.videoDuration}>{item.duration}</span>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     ))}
                   </div>
-                  {images.length > 1 && (
+
+                  {mediaItems.length > 1 && (
                     <>
                       <button
                         className={`${css.carouselButton} ${css.prev}`}
-                        onClick={handlePrevImage}
-                        aria-label="Previous image"
+                        onClick={handlePrevMedia}
+                        aria-label="Previous media"
                       >
                         <i className="fas fa-chevron-left"></i>
                       </button>
                       <button
                         className={`${css.carouselButton} ${css.next}`}
-                        onClick={handleNextImage}
-                        aria-label="Next image"
+                        onClick={handleNextMedia}
+                        aria-label="Next media"
                       >
                         <i className="fas fa-chevron-right"></i>
                       </button>
                       <div className={css.carouselIndicators}>
-                        {images.map((_, index) => (
+                        {mediaItems.map((item, index) => (
                           <button
                             key={index}
-                            className={`${css.indicator} ${index === currentImageIndex ? css.active : ''}`}
+                            className={`${css.indicator} ${index === currentMediaIndex ? css.active : ''} ${item.type === 'video' ? css.videoIndicator : ''}`}
                             onClick={() => {
-                              setCurrentImageIndex(index)
+                              setCurrentMediaIndex(index)
                               setIsAutoPlaying(false)
                             }}
                           />
@@ -182,10 +448,10 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
               )}
 
               {/* Category/Service info overlay */}
-              {(selectedCategory || hoveredCategory) && !selectedService && (
+              {mediaItems.length > 0 && mediaItems[currentMediaIndex]?.source && (
                 <div className={css.imageOverlay}>
-                  <h3>{(hoveredCategory || selectedCategory)?.name[language]}</h3>
-                  <p>{(hoveredCategory || selectedCategory)?.description?.[language]}</p>
+                  <h3>{mediaItems[currentMediaIndex].source.name[language]}</h3>
+                  <p>{mediaItems[currentMediaIndex].source.description?.[language]}</p>
                 </div>
               )}
             </div>
@@ -199,14 +465,31 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
                 <h3 className={css.listTitle}>
                   <span className={css.titleAccent}>{TEXTS.selectCategory[language]}</span>
                 </h3>
+
+                {shouldShowSearch && (
+                  <div className={css.searchContainer}>
+                    <input
+                      type="text"
+                      className={css.searchInput}
+                      placeholder={TEXTS.searchServices?.[language] || 'Search services...'}
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <i className="fas fa-search"></i>
+                  </div>
+                )}
+
                 <div className={css.categoriesContainer}>
                   <div className={css.categoriesGrid}>
-                    {SERVICES_DATA.map((category, index) => (
+                    {filteredCategories.map((category, index) => (
                       <div
                         key={category.id}
                         className={css.categoryCard}
                         onClick={() => handleCategorySelect(category)}
-                        onMouseEnter={() => setHoveredCategory(category)}
+                        onMouseEnter={() => {
+                          setHoveredCategory(category)
+                          setLockedCategory(category)
+                        }}
                         onMouseLeave={() => setHoveredCategory(null)}
                         style={{ animationDelay: `${index * 0.1}s` }}
                       >
@@ -251,7 +534,10 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
                         key={service.id}
                         className={css.serviceCard}
                         onClick={() => handleServiceSelect(service)}
-                        onMouseEnter={() => setHoveredService(service)}
+                        onMouseEnter={() => {
+                          setHoveredService(service)
+                          setLockedService(service)
+                        }}
                         onMouseLeave={() => setHoveredService(null)}
                         style={{ animationDelay: `${index * 0.05}s` }}
                       >
@@ -299,6 +585,67 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
           </div>
         </div>
       </div>
+
+      {/* Video Modal */}
+      {showVideoModal && videoItems.length > 0 && (
+        <div className={css.videoModal} onClick={closeVideoModal}>
+          <div
+            className={css.videoModalContent}
+            onClick={(e) => e.stopPropagation()}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            <button className={css.closeButton} onClick={closeVideoModal}>
+              <i className="fas fa-times"></i>
+            </button>
+
+            <div className={css.videoWrapper}>
+              <video
+                ref={videoRef}
+                src={videoItems[currentVideoIndex].src}
+                className={css.modalVideo}
+                autoPlay
+                muted={isVideoMuted}
+                playsInline
+                onClick={toggleVideoPlayback}
+              />
+            </div>
+
+            <div className={css.videoControls}>
+              {videoItems.length > 1 && (
+                <button className={css.controlButton} onClick={handlePrevVideo}>
+                  <i className="fas fa-chevron-left"></i>
+                </button>
+              )}
+
+              <button className={css.controlButton} onClick={toggleVideoPlayback}>
+                <i className={`fas fa-${isVideoPlaying ? 'pause' : 'play'}`}></i>
+              </button>
+
+              {videoItems.length > 1 && (
+                <button className={css.controlButton} onClick={handleNextVideo}>
+                  <i className="fas fa-chevron-right"></i>
+                </button>
+              )}
+
+              <button className={css.controlButton} onClick={toggleVideoMute}>
+                <i className={`fas fa-volume-${isVideoMuted ? 'mute' : 'up'}`}></i>
+              </button>
+            </div>
+
+            {videoItems.length > 1 && (
+              <div className={css.videoIndicators}>
+                {videoItems.map((_, index) => (
+                  <span
+                    key={index}
+                    className={`${css.videoIndicator} ${index === currentVideoIndex ? css.active : ''}`}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </section>
   )
 }

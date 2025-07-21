@@ -35,7 +35,8 @@ export const Hero: React.FC<HeroProps> = ({ language }) => {
       <div className={css.heroContent}>
         <p className={css.heroSubtitle}>{TEXTS.tagline[language]}</p>
         <h1>
-          <span>{TEXTS.siteTitle[language]}</span>
+          <img className={css.logoImage} src={'/logo.png'}></img>
+          {/* <span>{TEXTS.siteTitle[language]}</span> */}
         </h1>
         <p className={css.heroDescription}>{TEXTS.heroDescription[language]}</p>
         <div className={css.heroCta}>

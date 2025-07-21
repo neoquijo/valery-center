@@ -22,8 +22,8 @@ export const TEXTS: Record<string, TextContent> = {
     en: "servicesCount"
   },
   backToCategories: {
-    ru: "backToCategories",
-    en: "backToCategories"
+    ru: "",
+    en: ""
   },
   selectedServiceLabel: {
     ru: "selectedServiceLabel",
@@ -178,43 +178,48 @@ export const SERVICES_DATA: ServiceCategory[] = [
       en: "Therapeutic, relaxing and lymphatic drainage massage from experienced specialists",
     },
     icon: "fas fa-spa",
-    images: ["https://i.ytimg.com/vi/OrrLSXofG5M/maxresdefault.jpg", "https://www.spacethespa.com/wp-content/uploads/revslider/Indiranagar%20Slider/Banner-16.jpg"],
-    videos: ['/video/1.mp4'],
+    // images: ["https://i.ytimg.com/vi/OrrLSXofG5M/maxresdefault.jpg", "https://www.spacethespa.com/wp-content/uploads/revslider/Indiranagar%20Slider/Banner-16.jpg"],
+    // videos: ['/video/1.mp4'],
     subcategories: [
       {
         id: "therapeutic",
         name: { ru: "Терапевтический", en: "Therapeutic" },
-        images: ["https://www.zastavki.com/pictures/1920x1080/2018Animals___Cats_Large_gray_cat_with_a_surprised_look_123712_23.jpg"],
+        description: {
+          ru: 'Терапевтический массаж — это эффективный метод лечения и профилактики различных заболеваний опорно-двигательного аппарата, нервной и мышечной систем. В отличие от расслабляющего массажа, терапевтический направлен на устранение болевых синдромов, улучшение кровообращения, снятие мышечных спазмов и восстановление подвижности.',
+          en: "massage description"
+        },
+        // images: [""],
+        videos: ['/video/terapeutic_massage1.mp4']
       },
       {
         id: "lymphatic",
         name: { ru: "Лимфодренажный", en: "Lymphatic Drainage" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "anticellulite",
         name: { ru: "Антицеллюлитный", en: "Anti-cellulite" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "sports",
         name: { ru: "Спортивный", en: "Sports" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "back",
         name: { ru: "Спина", en: "Back" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "back-legs",
         name: { ru: "Спина и ноги", en: "Back and Legs" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "legs",
         name: { ru: "Ноги", en: "Legs" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
     ],
   },
@@ -229,42 +234,42 @@ export const SERVICES_DATA: ServiceCategory[] = [
       en: "Modern hardware procedures for rejuvenation and correction",
     },
     icon: "fas fa-leaf",
-    images: ["https://www.zastavki.com/pictures/1920x1080/2018Animals___Cats_Large_gray_cat_with_a_surprised_look_123712_23.jpg"],
+    // images: ["https://www.zastavki.com/pictures/1920x1080/2018Animals___Cats_Large_gray_cat_with_a_surprised_look_123712_23.jpg"],
     subcategories: [
       {
         id: "hifu",
         name: { ru: "HifuSmasLifting", en: "HifuSmasLifting" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "photorejuvenation",
         name: { ru: "Фотоомоложение", en: "Photorejuvenation" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "couperose",
         name: { ru: "Профилактика купероза", en: "Couperose Prevention" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "pigmentation",
         name: { ru: "Профилактика гиперпигментации", en: "Hyperpigmentation Prevention" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "carbon-peeling",
         name: { ru: "Карбоновый пилинг", en: "Carbon Peeling" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "radiofrequency",
         name: { ru: "Радиочастота", en: "Radiofrequency" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "cavitation",
         name: { ru: "Ультразвуковая кавитация", en: "Ultrasonic Cavitation" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
     ],
   },
@@ -279,32 +284,34 @@ export const SERVICES_DATA: ServiceCategory[] = [
       en: "Professional facial care for all skin types",
     },
     icon: "fas fa-hand-sparkles",
-    images: ["/placeholder.svg?height=300&width=400"],
+    // images: ["/placeholder.svg?height=300&width=400"],
     subcategories: [
       {
         id: "dermapen",
         name: { ru: "Дермапен", en: "Dermapen" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "chemical-peels",
         name: { ru: "Химические пилинги", en: "Chemical Peels" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "facial-cleansing",
         name: { ru: "Чистка лица", en: "Facial Cleansing" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "kobido-massage",
         name: { ru: "Массаж лица Кобидо", en: "Kobido Face Massage" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        videos: [
+          '/video/kobido_massage1.MP4'
+        ]
       },
       {
         id: "lymphatic-face",
         name: { ru: "Массаж лица лимфодренажный", en: "Lymphatic Face Massage" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "thalgo-treatments",
@@ -312,7 +319,9 @@ export const SERVICES_DATA: ServiceCategory[] = [
           ru: "Процедуры на косметике Thalgo",
           en: "Thalgo Cosmetic Treatments",
         },
-        images: ["/placeholder.svg?height=300&width=400"],
+        videos: [
+          '/video/thalgo_nutrient.mp4'
+        ]
       },
     ],
   },
@@ -327,27 +336,27 @@ export const SERVICES_DATA: ServiceCategory[] = [
       en: "Modern technologies for body contouring and rejuvenation",
     },
     icon: "fas fa-dumbbell",
-    images: ["/placeholder.svg?height=300&width=400"],
+    // images: ["/placeholder.svg?height=300&width=400"],
     subcategories: [
       {
         id: "body-hifu",
         name: { ru: "HifuSmasLifting", en: "HifuSmasLifting" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "cavitation-vacuum",
         name: { ru: "Кавитация + вакуумный массаж", en: "Cavitation + Vacuum Massage" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "amplipulse",
         name: { ru: "Амплипульс терапия", en: "Amplipulse Therapy" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "electrophoresis",
         name: { ru: "Электрофорез", en: "Electrophoresis" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
     ],
   },
@@ -362,17 +371,17 @@ export const SERVICES_DATA: ServiceCategory[] = [
       en: "Laser hair removal and wax depilation for all areas",
     },
     icon: "fas fa-magic",
-    images: ["/placeholder.svg?height=300&width=400"],
+    // images: ["/placeholder.svg?height=300&width=400"],
     subcategories: [
       {
         id: "laser-removal",
         name: { ru: "Лазерная эпиляция", en: "Laser Hair Removal" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        videos: ['/video/laser_legs1.mp4']
       },
       {
         id: "wax-removal",
         name: { ru: "Депиляция воском", en: "Wax Depilation" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
     ],
   },
@@ -392,27 +401,29 @@ export const SERVICES_DATA: ServiceCategory[] = [
       {
         id: "hair-coloring",
         name: { ru: "Окрашивание волос", en: "Hair Coloring" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "highlighting",
         name: { ru: "Мелирование", en: "Highlighting" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "haircut",
         name: { ru: "Стрижка", en: "Haircut" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "styling",
         name: { ru: "Укладка", en: "Styling" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "hair-treatment",
         name: { ru: "Лечение волос Dr.Sorbi", en: "Dr.Sorbi Hair Treatment" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        videos: [
+          "/video/hair_healing1.mp4"
+        ]
       },
     ],
   },
@@ -427,37 +438,38 @@ export const SERVICES_DATA: ServiceCategory[] = [
       en: "Manicure, pedicure and nail design",
     },
     icon: "fas fa-hand-sparkles",
-    images: ["/placeholder.svg?height=300&width=400"],
+    // images: ["/placeholder.svg?height=300&width=400"],
     subcategories: [
       {
         id: "manicure-polish",
         name: { ru: "Маникюр + Polish", en: "Manicure + Polish" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "manicure-gel",
         name: { ru: "Маникюр + Gel", en: "Manicure + Gel" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "nail-extension",
         name: { ru: "Наращивание", en: "Nail Extension" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "manicure-strengthening",
         name: { ru: "Маникюр с укреплением", en: "Manicure with Strengthening" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "pedicure-polish",
         name: { ru: "Педикюр + Polish", en: "Pedicure + Polish" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "pedicure-gel",
         name: { ru: "Педикюр + Gel", en: "Pedicure + Gel" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
+
       },
     ],
   },
@@ -472,18 +484,26 @@ export const SERVICES_DATA: ServiceCategory[] = [
       en: "Brow and lash tinting and lamination",
     },
     icon: "fas fa-eye",
-    images: ["/placeholder.svg?height=300&width=400"],
+    // images: ["/placeholder.svg?height=300&width=400"],
     subcategories: [
       {
         id: "brow-lash-tinting",
         name: { ru: "Окрашивание бровей и ресниц", en: "Brow and Lash Tinting" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "brow-lash-lamination",
         name: { ru: "Ламинирование бровей и ресниц", en: "Brow and Lash Lamination" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
+      {
+        id: 'lashes-extension',
+        name: {
+          'en': "Lashes extension",
+          ru: "Наращивание ресниц"
+        },
+        videos: ['/video/ext_lashes1.mp4']
+      }
     ],
   },
   {
@@ -496,28 +516,33 @@ export const SERVICES_DATA: ServiceCategory[] = [
       ru: "Татуаж бровей, губ и межресничного пространства",
       en: "Eyebrow, lip and eyeliner tattooing",
     },
+
     icon: "fas fa-paint-brush",
-    images: ["/placeholder.svg?height=300&width=400"],
+    // images: ["/placeholder.svg?height=300&width=400"],
     subcategories: [
       {
         id: "permanent-brows",
         name: { ru: "Брови", en: "Eyebrows" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
+        videos: [
+          "/video/brows_permanent1.mp4"
+        ],
       },
       {
         id: "permanent-eyeliner",
         name: { ru: "Межресничка", en: "Eyeliner" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "permanent-lips",
         name: { ru: "Губы", en: "Lips" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        // images: ["/placeholder.svg?height=300&width=400"],
       },
       {
         id: "tattoo-removal",
         name: { ru: "Удаление татуажа", en: "Tattoo Removal" },
-        images: ["/placeholder.svg?height=300&width=400"],
+        images: [],
+        videos: ['/video/tattoo_remove1.mp4']
       },
     ],
   },

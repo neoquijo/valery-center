@@ -8,7 +8,7 @@
 }
 
 .nav.scrolled {
-  background: #40544980;
+  /* background: #354C4480; */
   backdrop-filter: blur(20px) saturate(180%);
   padding: 1rem 2rem;
 }

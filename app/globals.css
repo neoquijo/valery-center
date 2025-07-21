@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
 }
 
 :root {
@@ -18,11 +19,16 @@
 }
 
 body {
+  background: url('/bg.jpg') !important;
+  /* background: url('https://img.freepik.com/premium-photo/green-background-115_1028035-221.jpg') !important; */
+  background-size: cover !important;
+  background-attachment: fixed !important;
   font-family: "Poppins", sans-serif;
   background: var(--black);
   color: var(--white);
   overflow-x: hidden;
   line-height: 1.6;
+
 }
 
 .container {
