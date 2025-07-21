@@ -1,9 +1,8 @@
 // components/Services/Services.tsx
-//@ts-nocheck
 "use client"
 
 import type React from "react"
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import type { Language, ServiceCategory, ServiceSubcategory } from "../../types"
 import { TEXTS, SERVICES_DATA } from "../../constants/texts"
 import css from "./Services.module.css"
@@ -105,7 +104,7 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
         items.push(...source.images.map(src => ({
           type: 'image' as const,
           src,
-          source: currentSource
+          source: currentSource || undefined
         })))
       }
 
@@ -116,7 +115,7 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
             type: 'video' as const,
             src,
             thumbnail: videoThumbnails[src] || undefined,
-            source: currentSource
+            source: currentSource || undefined
           })
           // Generate thumbnail for this video
           generateVideoThumbnail(src)
@@ -143,14 +142,27 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
     } else if (selectedCategory) {
       addCategoryWithSubcategories(selectedCategory)
     } else if (lockedCategory || hoveredCategory) {
-      addCategoryWithSubcategories(lockedCategory || hoveredCategory || {})
+      const category = lockedCategory || hoveredCategory
+      if (category) {
+        addCategoryWithSubcategories(category)
+      }
     }
 
     return items
   }
 
   const mediaItems = getMediaItems()
-  const videoItems = mediaItems.filter(item => item.type === 'video')
+
+  // Memoize video items to prevent recreation on every render
+  const videoItems = useMemo(() => {
+    return mediaItems.filter(item => item.type === 'video')
+  }, [mediaItems])
+
+  // Debug logging
+  useEffect(() => {
+    console.log("Media items:", mediaItems.length, "Video items:", videoItems.length)
+    console.log("Video sources:", videoItems.map((v: MediaItem) => v.src))
+  }, [mediaItems, videoItems])
 
   useEffect(() => {
     console.log("Current media items:", mediaItems)
@@ -359,7 +371,7 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
               {mediaItems.length > 0 ? (
                 <>
                   <div className={css.mediaContainer}>
-                    {mediaItems.map((item, index) => (
+                    {mediaItems.map((item: MediaItem, index: number) => (
                       <div
                         key={`${item.src}-${index}`}
                         className={`${css.mediaItem} ${index === currentMediaIndex ? css.active : ''}`}
@@ -389,9 +401,14 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
                             )}
                             <button
                               className={css.playButton}
-                              onClick={() => {
-                                const videoIndex = videoItems.findIndex(v => v.src === item.src)
-                                openVideoModal(videoIndex)
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                // Find the exact video in videoItems array by comparing the src
+                                const videoIndex = videoItems.findIndex((v: MediaItem) => v.src === item.src)
+                                console.log('Clicked video:', item.src, 'Index:', videoIndex, 'Total videos:', videoItems.length)
+                                if (videoIndex !== -1) {
+                                  openVideoModal(videoIndex)
+                                }
                               }}
                               aria-label={TEXTS.playVideo?.[language] || 'Play video'}
                             >
@@ -423,7 +440,7 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
                         <i className="fas fa-chevron-right"></i>
                       </button>
                       <div className={css.carouselIndicators}>
-                        {mediaItems.map((item, index) => (
+                        {mediaItems.map((item: MediaItem, index: number) => (
                           <button
                             key={index}
                             className={`${css.indicator} ${index === currentMediaIndex ? css.active : ''} ${item.type === 'video' ? css.videoIndicator : ''}`}
@@ -602,12 +619,15 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
             <div className={css.videoWrapper}>
               <video
                 ref={videoRef}
-                src={videoItems[currentVideoIndex].src}
+                key={videoItems[currentVideoIndex]?.src} // Force re-mount on video change
+                src={videoItems[currentVideoIndex]?.src}
                 className={css.modalVideo}
                 autoPlay
                 muted={isVideoMuted}
                 playsInline
                 onClick={toggleVideoPlayback}
+                onPlay={() => setIsVideoPlaying(true)}
+                onPause={() => setIsVideoPlaying(false)}
               />
             </div>
 
@@ -635,7 +655,7 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
 
             {videoItems.length > 1 && (
               <div className={css.videoIndicators}>
-                {videoItems.map((_, index) => (
+                {videoItems.map((_: MediaItem, index: number) => (
                   <span
                     key={index}
                     className={`${css.videoIndicator} ${index === currentVideoIndex ? css.active : ''}`}
