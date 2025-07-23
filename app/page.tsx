@@ -9,6 +9,7 @@ import { Services } from "../components/Services/Services"
 import { Contact } from "../components/Contact/Contact"
 import { FloatingButtons } from "../components/FloatingButtons/FloatingButtons"
 import { Reviews } from "../components/Reviews/Reviews"
+import CookieConsent from "react-cookie-consent";
 
 export default function HomePage() {
   const { language, changeLanguage } = useLanguage()
@@ -16,6 +17,7 @@ export default function HomePage() {
 
   return (
     <div>
+
       <Preloader />
       <Header language={language} onLanguageChange={changeLanguage} />
       <Hero language={language} />

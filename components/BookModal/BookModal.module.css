@@ -1,0 +1,33 @@
+.wrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  z-index: 900000;
+  align-items: center;
+  /* justify-content: center; */
+  padding-top: 1em;
+  width: 100vw;
+  background-color: white;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2em;
+  /* background-color: red; */
+  color: black;
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 1.2em;
+}
+
+.iframe {
+  width: 90vw !important;
+  outline: none;
+  border: none;
+  height: 80vh !important;
+}

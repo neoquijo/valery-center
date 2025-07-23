@@ -3,6 +3,7 @@ import type React from "react"
 import type { Language } from "../../types"
 import { TEXTS } from "../../constants/texts"
 import css from "./Contact.module.css"
+import BookModal from "../BookModal/BookModal"
 
 interface ContactProps {
   language: Language
@@ -23,7 +24,7 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
               <div className={css.contactIcon}>
                 <i className="fas fa-map-marker-alt"></i>
               </div>
-              <span>📍 Торревьеха, Испания</span>
+              <span>📍 C. Sector y-1 Campoa-Sector Nort, 4M, 03189 Dehesa de Campoamor, Alicante</span>
             </div>
             <div className={css.contactItem}>
               <div className={css.contactIcon}>
@@ -44,10 +45,10 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
               <span>🕐 {TEXTS.schedule[language]}</span>
             </div>
             <div className={css.contactItem}>
-              <div className={css.contactIcon}>
+              {/* <div className={css.contactIcon}>
                 <i className="fas fa-parking"></i>
-              </div>
-              <span>🚗 {TEXTS.parking[language]}</span>
+              </div> */}
+              {/* <span>🚗 {TEXTS.parking[language]}</span> */}
             </div>
           </div>
           <div className={css.mapContainer}>

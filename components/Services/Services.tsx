@@ -17,6 +17,29 @@ interface MediaItem {
   thumbnail?: string
   duration?: string
   source?: ServiceCategory | ServiceSubcategory
+  loaded?: boolean
+}
+
+// Intersection Observer для ленивой загрузки
+const useIntersectionObserver = (
+  ref: React.RefObject<Element>,
+  options: IntersectionObserverInit = {}
+) => {
+  const [isIntersecting, setIsIntersecting] = useState(false)
+
+  useEffect(() => {
+    const element = ref.current
+    if (!element) return
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsIntersecting(entry.isIntersecting)
+    }, options)
+
+    observer.observe(element)
+    return () => observer.unobserve(element)
+  }, [ref, options])
+
+  return isIntersecting
 }
 
 export const Services: React.FC<ServicesProps> = ({ language }) => {
@@ -35,110 +58,188 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
   const [showSearch, setShowSearch] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [videoThumbnails, setVideoThumbnails] = useState<Record<string, string>>({})
+  const [loadedVideos, setLoadedVideos] = useState<Set<string>>(new Set())
+  const [pendingThumbnails, setPendingThumbnails] = useState<Set<string>>(new Set())
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const servicesRef = useRef<HTMLElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const touchStartX = useRef<number>(0)
+  const thumbnailQueue = useRef<string[]>([])
+  const isGeneratingThumbnail = useRef<boolean>(false)
 
-  // Generate video thumbnail
-  const generateVideoThumbnail = useCallback((videoSrc: string) => {
-    if (videoThumbnails[videoSrc]) return
+  // Intersection Observer для секции
+  //@ts-ignore
+  const isVisible = useIntersectionObserver(servicesRef, { threshold: 0.1 })
 
-    const video = document.createElement('video')
-    video.src = videoSrc
-    video.crossOrigin = 'anonymous'
-    video.preload = 'metadata'
+  // Ленивая генерация thumbnail'ов с очередью
+  const generateVideoThumbnailLazy = useCallback(async (videoSrc: string) => {
+    if (videoThumbnails[videoSrc] || pendingThumbnails.has(videoSrc)) return
 
-    const handleLoadedMetadata = () => {
-      video.currentTime = 0.5 // Get frame at 0.5 seconds
-    }
+    setPendingThumbnails(prev => new Set(prev).add(videoSrc))
 
-    const handleSeeked = () => {
-      const canvas = document.createElement('canvas')
-      canvas.width = video.videoWidth
-      canvas.height = video.videoHeight
-      const ctx = canvas.getContext('2d')
+    return new Promise<void>((resolve) => {
+      const video = document.createElement('video')
+      video.src = videoSrc
+      video.muted = true
+      video.playsInline = true
+      video.preload = 'metadata'
+      video.crossOrigin = 'anonymous'
 
-      if (ctx) {
-        try {
-          ctx.drawImage(video, 0, 0)
-          const thumbnail = canvas.toDataURL('image/jpeg', 0.8)
-          setVideoThumbnails(prev => ({ ...prev, [videoSrc]: thumbnail }))
-        } catch (error) {
-          console.error('Error generating thumbnail:', error)
-        }
+      const cleanup = () => {
+        video.removeEventListener('loadedmetadata', handleLoadedMetadata)
+        video.removeEventListener('seeked', handleSeeked)
+        video.removeEventListener('error', handleError)
+        video.src = ''
+        setPendingThumbnails(prev => {
+          const newSet = new Set(prev)
+          newSet.delete(videoSrc)
+          return newSet
+        })
+        resolve()
       }
 
-      // Clean up
-      video.removeEventListener('loadedmetadata', handleLoadedMetadata)
-      video.removeEventListener('seeked', handleSeeked)
+      const handleLoadedMetadata = () => {
+        video.currentTime = Math.min(1, video.duration * 0.1)
+      }
+
+      const handleSeeked = () => {
+        const canvas = document.createElement('canvas')
+        const aspectRatio = video.videoWidth / video.videoHeight
+
+        canvas.width = 300
+        canvas.height = 300 / aspectRatio
+
+        const ctx = canvas.getContext('2d')
+
+        if (ctx) {
+          try {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+            const thumbnail = canvas.toDataURL('image/jpeg', 0.6)
+            setVideoThumbnails(prev => ({ ...prev, [videoSrc]: thumbnail }))
+          } catch (error) {
+            console.warn('Thumbnail generation failed:', videoSrc)
+          }
+        }
+        cleanup()
+      }
+
+      const handleError = () => {
+        console.warn('Video loading failed for thumbnail:', videoSrc)
+        cleanup()
+      }
+
+      video.addEventListener('loadedmetadata', handleLoadedMetadata)
+      video.addEventListener('seeked', handleSeeked)
+      video.addEventListener('error', handleError)
+
+      // Timeout для очистки зависших запросов
+      setTimeout(() => {
+        if (pendingThumbnails.has(videoSrc)) {
+          cleanup()
+        }
+      }, 5000)
+
+      video.load()
+    })
+  }, [videoThumbnails, pendingThumbnails])
+
+  // Процессор очереди thumbnail'ов
+  const processThumbnailQueue = useCallback(async () => {
+    if (isGeneratingThumbnail.current || thumbnailQueue.current.length === 0) return
+
+    isGeneratingThumbnail.current = true
+
+    while (thumbnailQueue.current.length > 0) {
+      const videoSrc = thumbnailQueue.current.shift()
+      if (videoSrc && !videoThumbnails[videoSrc]) {
+        await generateVideoThumbnailLazy(videoSrc)
+        // Небольшая задержка между генерациями
+        await new Promise(resolve => setTimeout(resolve, 100))
+      }
     }
 
-    video.addEventListener('loadedmetadata', handleLoadedMetadata)
-    video.addEventListener('seeked', handleSeeked)
+    isGeneratingThumbnail.current = false
+  }, [generateVideoThumbnailLazy, videoThumbnails])
 
-    // Fallback for CORS or other errors
-    video.addEventListener('error', () => {
-      console.error('Error loading video for thumbnail:', videoSrc)
-    })
-
-    video.load()
-  }, [videoThumbnails])
+  // Добавление видео в очередь только при необходимости
+  const queueVideoThumbnail = useCallback((videoSrc: string) => {
+    if (!videoThumbnails[videoSrc] && !pendingThumbnails.has(videoSrc)) {
+      if (!thumbnailQueue.current.includes(videoSrc)) {
+        thumbnailQueue.current.push(videoSrc)
+      }
+      // Запускаем процессор с небольшой задержкой
+      setTimeout(processThumbnailQueue, 50)
+    }
+  }, [videoThumbnails, pendingThumbnails, processThumbnailQueue])
 
   const getMediaItems = (): MediaItem[] => {
     let items: MediaItem[] = []
     let currentSource: ServiceCategory | ServiceSubcategory | null = null
 
-    // Function to add media from object
     const addMedia = (source: ServiceCategory | ServiceSubcategory | null, isSubcategory: boolean = false) => {
       if (!source) return
 
-      // Track the current source for overlay
       if (!currentSource || isSubcategory) {
         currentSource = source
       }
 
-      // Add images
+      // Добавляем изображения (они грузятся быстро)
       if (source.images) {
         items.push(...source.images.map(src => ({
           type: 'image' as const,
           src,
-          source: currentSource || undefined
+          source: currentSource || undefined,
+          loaded: true
         })))
       }
 
-      // Add videos
-      if (source.videos) {
+      // Добавляем видео только если секция видна
+      if (source.videos && isVisible) {
         source.videos.forEach(src => {
           items.push({
             type: 'video' as const,
             src,
             thumbnail: videoThumbnails[src] || undefined,
-            source: currentSource || undefined
+            source: currentSource || undefined,
+            loaded: loadedVideos.has(src)
           })
-          // Generate thumbnail for this video
-          generateVideoThumbnail(src)
+
+          // Добавляем в очередь только активные видео
+          queueVideoThumbnail(src)
         })
       }
     }
 
-    // Function to add all media from category including subcategories
     const addCategoryWithSubcategories = (category: ServiceCategory) => {
-      // Add category's own media
       addMedia(category, false)
-
-      // Add all subcategories media
       category.subcategories.forEach(subcategory => {
         addMedia(subcategory, true)
       })
     }
 
-    // Priority order with locked states
+    // Приоритетный порядок загрузки
     if (selectedService) {
       addMedia(selectedService, true)
+      if (items.length === 0) {
+        items.push({
+          type: 'image' as const,
+          src: '/logo.png',
+          source: selectedService,
+          loaded: true
+        })
+      }
     } else if (lockedService || hoveredService) {
-      addMedia(lockedService || hoveredService, true)
+      const service = lockedService || hoveredService
+      addMedia(service, true)
+      if (items.length === 0 && service) {
+        items.push({
+          type: 'image' as const,
+          src: '/logo.png',
+          source: service,
+          loaded: true
+        })
+      }
     } else if (selectedCategory) {
       addCategoryWithSubcategories(selectedCategory)
     } else if (lockedCategory || hoveredCategory) {
@@ -153,36 +254,32 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
 
   const mediaItems = getMediaItems()
 
-  // Memoize video items to prevent recreation on every render
   const videoItems = useMemo(() => {
     return mediaItems.filter(item => item.type === 'video')
   }, [mediaItems])
 
-  // Debug effect to monitor video changes
+  // Предзагрузка только текущего и следующего видео в карусели
   useEffect(() => {
-    if (showVideoModal) {
-      console.log('Modal opened with video src:', currentVideoSrc)
-      console.log('All video items:', videoItems.map(v => v.src))
+    if (mediaItems.length > 0 && isVisible) {
+      const currentItem = mediaItems[currentMediaIndex]
+      const nextIndex = (currentMediaIndex + 1) % mediaItems.length
+      const nextItem = mediaItems[nextIndex]
+
+      // Загружаем текущее видео
+      if (currentItem?.type === 'video' && !loadedVideos.has(currentItem.src)) {
+        setLoadedVideos(prev => new Set(prev).add(currentItem.src))
+      }
+
+      // Предзагружаем следующее видео
+      if (nextItem?.type === 'video' && !loadedVideos.has(nextItem.src)) {
+        setTimeout(() => {
+          setLoadedVideos(prev => new Set(prev).add(nextItem.src))
+        }, 1000)
+      }
     }
-  }, [showVideoModal, currentVideoSrc, videoItems])
+  }, [currentMediaIndex, mediaItems, isVisible, loadedVideos])
 
-  // Debug media items
-  useEffect(() => {
-    console.log('Current media index:', currentMediaIndex)
-    console.log('Current media item:', mediaItems[currentMediaIndex])
-  }, [currentMediaIndex, mediaItems])
-
-  useEffect(() => {
-    console.log("Current media items:", mediaItems)
-    console.log("Selected category:", selectedCategory)
-    console.log("Hovered category:", hoveredCategory)
-    console.log("Locked category:", lockedCategory)
-    console.log("Selected service:", selectedService)
-    console.log("Hovered service:", hoveredService)
-    console.log("Locked service:", lockedService)
-  }, [selectedCategory, hoveredCategory, lockedCategory, selectedService, hoveredService, lockedService])
-
-  // Filter categories based on search
+  // Фильтрация категорий
   const filteredCategories = SERVICES_DATA.filter(category =>
     category.name[language].toLowerCase().includes(searchQuery.toLowerCase()) ||
     category.subcategories.some(service =>
@@ -190,9 +287,9 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
     )
   )
 
-  // Auto-play carousel
+  // Автовоспроизведение карусели
   useEffect(() => {
-    if (mediaItems.length > 1 && isAutoPlaying && !showVideoModal) {
+    if (mediaItems.length > 1 && isAutoPlaying && !showVideoModal && isVisible) {
       intervalRef.current = setInterval(() => {
         setCurrentMediaIndex((prev) => (prev + 1) % mediaItems.length)
       }, 4000)
@@ -207,14 +304,14 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
         clearInterval(intervalRef.current)
       }
     }
-  }, [mediaItems.length, isAutoPlaying, showVideoModal])
+  }, [mediaItems.length, isAutoPlaying, showVideoModal, isVisible])
 
-  // Reset media index when changing selection
+  // Сброс индекса при изменении выбора
   useEffect(() => {
     setCurrentMediaIndex(0)
   }, [selectedCategory, selectedService, hoveredCategory, hoveredService, lockedCategory, lockedService])
 
-  // Keyboard navigation
+  // Клавиатурная навигация
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (showVideoModal) {
@@ -249,7 +346,7 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [showVideoModal, mediaItems.length])
 
-  // Touch handlers for video modal
+  // Touch handlers
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX
   }
@@ -267,6 +364,7 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
     }
   }
 
+  // Обработчики событий
   const handleCategorySelect = (category: ServiceCategory) => {
     setSelectedCategory(category)
     setSelectedService(null)
@@ -306,7 +404,6 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
   }
 
   const openVideoModal = (videoSrc: string) => {
-    console.log('openVideoModal called with src:', videoSrc)
     setCurrentVideoSrc(videoSrc)
     setShowVideoModal(true)
     setIsVideoPlaying(true)
@@ -363,6 +460,63 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
 
   const shouldShowSearch = filteredCategories.length > 8
 
+  // Ленивый рендер видео thumbnail'а
+  const renderVideoThumbnail = (item: MediaItem, index: number) => {
+    const isActive = index === currentMediaIndex
+    const shouldLoad = isActive || loadedVideos.has(item.src)
+    const hasGeneratedThumbnail = item.thumbnail && item.thumbnail !== item.src
+
+    return (
+      <div
+        className={css.videoThumbnail}
+        style={{
+          pointerEvents: isActive ? 'auto' : 'none'
+        }}
+        onClick={(e) => {
+          e.stopPropagation()
+          openVideoModal(item.src)
+        }}
+      >
+        {hasGeneratedThumbnail ? (
+          <img
+            src={item.thumbnail}
+            alt=""
+            className={css.carouselImage}
+            loading="lazy"
+          />
+        ) : shouldLoad ? (
+          <video
+            src={item.src}
+            className={css.carouselImage}
+            muted
+            playsInline
+            preload="metadata"
+            //@ts-ignore
+            loading="lazy"
+          />
+        ) : (
+          <div className={css.videoPlaceholder}>
+            <div className={css.loadingSpinner}></div>
+          </div>
+        )}
+
+        <button
+          className={css.playButton}
+          onClick={(e) => {
+            e.stopPropagation()
+            openVideoModal(item.src)
+          }}
+        >
+          <i className="fas fa-play"></i>
+        </button>
+
+        {item.duration && (
+          <span className={css.videoDuration}>{item.duration}</span>
+        )}
+      </div>
+    )
+  }
+
   return (
     <section ref={servicesRef} className={`${css.services} section`} id="services">
       <div className={css.backgroundDecoration}>
@@ -397,48 +551,10 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
                             src={item.src}
                             alt=""
                             className={css.carouselImage}
+                            loading={index === currentMediaIndex ? "eager" : "lazy"}
                           />
                         ) : (
-                          <div
-                            className={css.videoThumbnail}
-                            style={{
-                              pointerEvents: index === currentMediaIndex ? 'auto' : 'none'
-                            }}
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              console.log('Video thumbnail clicked:', item.src, 'Index:', index, 'Current:', currentMediaIndex)
-                              openVideoModal(item.src)
-                            }}
-                          >
-                            {item.thumbnail ? (
-                              <img
-                                src={item.thumbnail}
-                                alt=""
-                                className={css.carouselImage}
-                              />
-                            ) : (
-                              <video
-                                src={item.src}
-                                className={css.carouselImage}
-                                muted
-                                playsInline
-                                preload="metadata"
-                              />
-                            )}
-                            <button
-                              className={css.playButton}
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                console.log('Play button clicked for video:', item.src)
-                                openVideoModal(item.src)
-                              }}
-                            >
-                              <i className="fas fa-play"></i>
-                            </button>
-                            {item.duration && (
-                              <span className={css.videoDuration}>{item.duration}</span>
-                            )}
-                          </div>
+                          renderVideoThumbnail(item, index)
                         )}
                       </div>
                     ))}
@@ -652,9 +768,6 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
                   onClick={toggleVideoPlayback}
                   onPlay={() => setIsVideoPlaying(true)}
                   onPause={() => setIsVideoPlaying(false)}
-                  onLoadedData={() => {
-                    console.log('Video loaded:', currentVideoSrc)
-                  }}
                 />
               )}
             </div>

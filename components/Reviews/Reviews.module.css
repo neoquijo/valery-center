@@ -119,7 +119,7 @@
 
 .reviewerDetails h4 {
   font-family: "Playfair Display", serif;
-  color: #2c1810;
+  color: var(--gold);
   margin-bottom: 0.25rem;
   font-size: 1.1rem;
 }
