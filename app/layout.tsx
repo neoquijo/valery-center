@@ -3,9 +3,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
-  generator: "v0.dev",
+  title: "ValeryCenter.com Massage & Wellness Center in Alicante | Therapeutic & Holistic Care",
 }
 
 export default function RootLayout({
@@ -16,6 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/082dae52df3e51687b8cd548/script.js"></script>
         <link rel="preconnect" href="https://fonts.bunny.net" />
         <link
           rel="stylesheet"
