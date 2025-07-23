@@ -17,7 +17,8 @@ export const Preloader: React.FC = () => {
 
   return (
     <div className={`${css.preloader} ${loaded ? css.loaded : ""}`}>
-      <div className={css.preloaderText}>ValeryCenter</div>
+      <img src={'/logo.png'}></img>
+      {/* <div className={css.preloaderText}>ValeryCenter</div> */}
     </div>
   )
 }

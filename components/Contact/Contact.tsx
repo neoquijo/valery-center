@@ -30,13 +30,13 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
               <div className={css.contactIcon}>
                 <i className="fas fa-map-marker-alt"></i>
               </div>
-              <span>📍 C. Sector y-1 Campoa-Sector Nort, 4M, 03189 Dehesa de Campoamor, Alicante</span>
+              <span>📍 C. Novela 2, Local 7, Orihuela Costa</span>
             </div>
             <div className={css.contactItem}>
               <div className={css.contactIcon}>
                 <i className="fas fa-phone-alt"></i>
               </div>
-              <span>📞 +34 602 489 061</span>
+              <span>📞 +34 744 720 006</span>
             </div>
             <div className={css.contactItem}>
               <div className={css.contactIcon}>

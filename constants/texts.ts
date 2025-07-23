@@ -7,6 +7,11 @@ export const TEXTS: Record<string, TextContent> = {
     ru: "Выберете категорию"
   },
 
+  categoryList: {
+    en: 'Categories list',
+    ru: 'Список категорий'
+  },
+
   closeText: {
     ru: 'Закрыть форму бронирования, вернуться на сайт',
     en: 'Close booking form and back to site'
@@ -23,8 +28,8 @@ export const TEXTS: Record<string, TextContent> = {
   },
 
   servicesCount: {
-    ru: 'servicesCount',
-    en: "servicesCount"
+    ru: 'Услуг',
+    en: "Services"
   },
   backToCategories: {
     ru: "",
@@ -44,12 +49,12 @@ export const TEXTS: Record<string, TextContent> = {
     en: "ValeryCenter",
   },
   tagline: {
-    ru: "Премиальный центр красоты и велнеса",
-    en: "Premium Beauty & Wellness Center",
+    ru: "Центр красоты и здоровья",
+    en: "Beauty & Healthcare Center",
   },
   heroDescription: {
-    ru: "Профессиональный уход за телом и лицом в самом сердце города",
-    en: "Professional body and face care in the heart of the city",
+    ru: "Профессиональный уход за телом и лицом в Orihuela Costa",
+    en: "Professional body and face care in Orihuela Costa",
   },
 
   // Navigation
@@ -140,8 +145,8 @@ export const TEXTS: Record<string, TextContent> = {
     en: "Free parking at the center",
   },
   schedule: {
-    ru: "Пн-Сб: 09:30 - 19:00",
-    en: "Mon-Sat: 09:30 - 19:00",
+    ru: "Пн-Пт: 10:00 - 19:00, Сб 10:00 - 15:00",
+    en: "Mon-Fri: 10:00 - 19:00 Satturday 10:00 - 15:00",
   },
 
   // Form
@@ -298,7 +303,7 @@ export const SERVICES_DATA: ServiceCategory[] = [
   {
     "id": "hardware-cosmetology",
     "name": {
-      "ru": "АППАРАТНАЯ КОСМЕТОЛОГИЯ",
+      "ru": "АППАРАТНЫЕ ПРОЦЕДУРЫ ДЛЯ ТЕЛА",
       "en": "HARDWARE COSMETOLOGY"
     },
     "description": {
@@ -309,6 +314,98 @@ export const SERVICES_DATA: ServiceCategory[] = [
     "subcategories": [
       {
         "id": "hifu",
+        "name": {
+          "ru": "HifuSmasLifting",
+          "en": "HifuSmasLifting"
+        },
+        "description": {
+          "ru": "Безинвазивный лифтинг с двойным действием: HIFU воздействует на поверхностные слои кожи, а SMAS-технология подтягивает глубокие мышечные структуры. Результат — выраженный омолаживающий эффект без реабилитации.",
+          "en": "Non-surgical facelift combining HIFU for skin tightening and SMAS technology for deep structural lifting. Stimulates collagen production for natural-looking rejuvenation with zero downtime."
+        },
+        "videos": [
+          "/video/HifuSmasLifting1.mp4"
+        ]
+      },
+      {
+        "id": "photorejuvenation",
+        "name": {
+          "ru": "Фотоомоложение",
+          "en": "Photorejuvenation"
+        },
+        "description": {
+          "ru": "Лечение IPL-светом устраняет пигментацию, сосудистые сеточки и признаки фотостарения. Активизирует синтез коллагена, выравнивает тон и текстуру кожи. Без повреждения поверхностного слоя.",
+          "en": "IPL technology targets pigmentation, broken capillaries, and sun damage while stimulating collagen. Improves skin tone and texture with minimal discomfort and no surface damage."
+        }
+      },
+      {
+        "id": "pigmentation",
+        "name": {
+          "ru": "Профилактика гиперпигментации",
+          "en": "Hyperpigmentation Prevention"
+        },
+        "description": {
+          "ru": "Программа предупреждения появления пигментных пятен с помощью лазерных технологий и депигментирующих препаратов. Осветляет существующие пятна, защищает от УФ-повреждений.",
+          "en": "Proactive approach to prevent dark spots using laser treatments and depigmenting agents. Targets existing discoloration while providing UV protection for future prevention."
+        }
+      },
+      {
+        "id": "carbon-peeling",
+        "name": {
+          "ru": "Карбоновый пилинг",
+          "en": "Carbon Peeling"
+        },
+        "description": {
+          "ru": "Бесконтактная лазерная процедура: углеродная маска поглощает лазерное излучение, удаляя загрязнения и омертвевшие клетки. Сужает поры, осветляет тон кожи, устраняет акне.",
+          "en": "Revolutionary laser treatment where carbon lotion absorbs laser energy to exfoliate deeply. Minimizes pores, treats acne, and brightens complexion with no downtime."
+        },
+        "videos": [
+          "/video/1.mp4",
+          "/video/carbon_peeling.mp4",
+          "/video/carbon_peel_interview.mp4"
+        ]
+      },
+      {
+        "id": "radiofrequency",
+        "name": {
+          "ru": "Радиочастота",
+          "en": "Radiofrequency"
+        },
+        "description": {
+          "ru": "Глубокий прогрев тканей радиочастотами стимулирует неоколлагенез и липолиза. Подтягивает овал лица, уменьшает морщины, корректирует контуры тела и локальные жировые отложения.",
+          "en": "Safe thermal energy tightens skin by stimulating collagen and elastin production. Effective for facial contouring, wrinkle reduction, and body sculpting through controlled tissue heating."
+        }
+      },
+      {
+        "id": "cavitation",
+        "name": {
+          "ru": "Ультразвуковая кавитация",
+          "en": "Ultrasonic Cavitation"
+        },
+        "description": {
+          "ru": "Безоперационная коррекция фигуры за счёт разрушения жировых клеток низкочастотным ультразвуком. Особенно эффективна для живота, бёдер, зоны «галифе». Требуется курс процедур.",
+          "en": "Non-invasive fat reduction using ultrasonic waves to disrupt fat cell membranes. Targets stubborn areas like abdomen and thighs, with results improving over multiple sessions."
+        },
+        "videos": [
+          "/video/ultrasonic_cavitation1.mp4"
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "hardware-cosmetology-face",
+    "name": {
+      "ru": "АППАРАТНАЯ ОМОЛАЖИВАЮЩАЯ КОСМЕТОЛОГИЯ",
+      "en": "ANTI-AGE HARDWARE COSMETOLOGY"
+    },
+    "description": {
+      "ru": "Современные аппаратные процедуры для омоложения и коррекции",
+      "en": "Modern hardware procedures for rejuvenation and correction"
+    },
+    "icon": "fas fa-leaf",
+    "subcategories": [
+      {
+        "id": "hifu-face",
         "name": {
           "ru": "HifuSmasLifting",
           "en": "HifuSmasLifting"

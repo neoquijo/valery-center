@@ -597,8 +597,8 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
                 <div className={css.placeholderImage}>
                   <div className={css.placeholderPattern}></div>
                   <div className={css.placeholderContent}>
-                    <div className={css.logoText}>BEAUTY</div>
-                    <p>{TEXTS.selectCategory[language]}</p>
+                    <div className={css.logoText}>{TEXTS.selectCategory[language]}</div>
+
                   </div>
                 </div>
               )}
@@ -619,10 +619,10 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
               // Categories List
               <div className={css.categoriesList}>
                 <h3 className={css.listTitle}>
-                  <span className={css.titleAccent}>{TEXTS.selectCategory[language]}</span>
+                  <span className={css.titleAccent}>{TEXTS.categoryList[language]}</span>
                 </h3>
 
-                {shouldShowSearch && (
+                {/* {shouldShowSearch && (
                   <div className={css.searchContainer}>
                     <input
                       type="text"
@@ -633,7 +633,7 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
                     />
                     <i className="fas fa-search"></i>
                   </div>
-                )}
+                )} */}
 
                 <div className={css.categoriesContainer}>
                   <div className={css.categoriesGrid}>
