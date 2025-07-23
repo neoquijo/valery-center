@@ -12,6 +12,10 @@
   transition: opacity 1s ease;
 }
 
+.image {
+  width: 90vw;
+}
+
 .preloader.loaded {
   opacity: 0;
   pointer-events: none;

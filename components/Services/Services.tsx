@@ -619,6 +619,7 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
               // Categories List
               <div className={css.categoriesList}>
                 <h3 className={css.listTitle}>
+
                   <span className={css.titleAccent}>{TEXTS.categoryList[language]}</span>
                 </h3>
 
