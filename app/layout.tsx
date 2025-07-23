@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/082dae52df3e51687b8cd548/script.js"></script>
+        <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="6cefbf97-79a9-4cd5-a9b1-76e7e385dac2" data-blockingmode="auto" type="text/javascript"></script>
         <link rel="preconnect" href="https://fonts.bunny.net" />
         <link
           rel="stylesheet"
