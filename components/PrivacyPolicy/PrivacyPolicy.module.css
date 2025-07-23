@@ -1,0 +1,62 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: white;
+  z-index: 900000;
+  overflow: scroll;
+
+}
+
+.closeModal {
+  color: black;
+  padding: 1em;
+  font-weight: 900;
+  font-size: 2em;
+  cursor: pointer;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.date {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 30px;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.paragraph {
+  margin-bottom: 10px;
+}
+
+.list {
+  list-style: disc;
+  padding-left: 20px;
+  margin-bottom: 10px;
+}

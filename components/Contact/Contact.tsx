@@ -4,14 +4,20 @@ import type { Language } from "../../types"
 import { TEXTS } from "../../constants/texts"
 import css from "./Contact.module.css"
 import BookModal from "../BookModal/BookModal"
+import { useState } from "react"
+import PrivacyPolicy from "../PrivacyPolicy/PrivacyPolicy"
 
 interface ContactProps {
   language: Language
 }
 
 export const Contact: React.FC<ContactProps> = ({ language }) => {
+
+  const [privacy, showPrivacy] = useState(false)
+
   return (
     <section className={`${css.contact} section`} id="contact">
+      {privacy && <PrivacyPolicy lang={language} cb={() => showPrivacy(false)} />}
       <div className={css.container}>
         <div className={css.textCenter}>
           <p className={css.sectionSubtitle}>{TEXTS.contact[language]}</p>
@@ -45,10 +51,10 @@ export const Contact: React.FC<ContactProps> = ({ language }) => {
               <span>🕐 {TEXTS.schedule[language]}</span>
             </div>
             <div className={css.contactItem}>
-              {/* <div className={css.contactIcon}>
-                <i className="fas fa-parking"></i>
-              </div> */}
-              {/* <span>🚗 {TEXTS.parking[language]}</span> */}
+              <div className={css.contactIcon}>
+                <i className="fa fa-legal"></i>
+              </div>
+              <span onClick={() => showPrivacy(true)}>{language == 'en' ? 'Privacy policy' : 'Политика конфиденциальности'}</span>
             </div>
           </div>
           <div className={css.mapContainer}>
