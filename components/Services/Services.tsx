@@ -29,7 +29,7 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const [showVideoModal, setShowVideoModal] = useState(false)
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
+  const [currentVideoSrc, setCurrentVideoSrc] = useState<string>('')
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
   const [isVideoMuted, setIsVideoMuted] = useState(true)
   const [showSearch, setShowSearch] = useState(false)
@@ -158,11 +158,19 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
     return mediaItems.filter(item => item.type === 'video')
   }, [mediaItems])
 
-  // Debug logging
+  // Debug effect to monitor video changes
   useEffect(() => {
-    console.log("Media items:", mediaItems.length, "Video items:", videoItems.length)
-    console.log("Video sources:", videoItems.map((v: MediaItem) => v.src))
-  }, [mediaItems, videoItems])
+    if (showVideoModal) {
+      console.log('Modal opened with video src:', currentVideoSrc)
+      console.log('All video items:', videoItems.map(v => v.src))
+    }
+  }, [showVideoModal, currentVideoSrc, videoItems])
+
+  // Debug media items
+  useEffect(() => {
+    console.log('Current media index:', currentMediaIndex)
+    console.log('Current media item:', mediaItems[currentMediaIndex])
+  }, [currentMediaIndex, mediaItems])
 
   useEffect(() => {
     console.log("Current media items:", mediaItems)
@@ -297,8 +305,9 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
     setCurrentMediaIndex((prev) => (prev + 1) % mediaItems.length)
   }
 
-  const openVideoModal = (videoIndex: number) => {
-    setCurrentVideoIndex(videoIndex)
+  const openVideoModal = (videoSrc: string) => {
+    console.log('openVideoModal called with src:', videoSrc)
+    setCurrentVideoSrc(videoSrc)
     setShowVideoModal(true)
     setIsVideoPlaying(true)
   }
@@ -313,13 +322,17 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
 
   const handlePrevVideo = () => {
     if (videoItems.length > 1) {
-      setCurrentVideoIndex((prev) => (prev - 1 + videoItems.length) % videoItems.length)
+      const currentIndex = videoItems.findIndex(v => v.src === currentVideoSrc)
+      const prevIndex = (currentIndex - 1 + videoItems.length) % videoItems.length
+      setCurrentVideoSrc(videoItems[prevIndex].src)
     }
   }
 
   const handleNextVideo = () => {
     if (videoItems.length > 1) {
-      setCurrentVideoIndex((prev) => (prev + 1) % videoItems.length)
+      const currentIndex = videoItems.findIndex(v => v.src === currentVideoSrc)
+      const nextIndex = (currentIndex + 1) % videoItems.length
+      setCurrentVideoSrc(videoItems[nextIndex].src)
     }
   }
 
@@ -375,6 +388,9 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
                       <div
                         key={`${item.src}-${index}`}
                         className={`${css.mediaItem} ${index === currentMediaIndex ? css.active : ''}`}
+                        style={{
+                          zIndex: index === currentMediaIndex ? 2 : 1
+                        }}
                       >
                         {item.type === 'image' ? (
                           <img
@@ -383,7 +399,17 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
                             className={css.carouselImage}
                           />
                         ) : (
-                          <div className={css.videoThumbnail}>
+                          <div
+                            className={css.videoThumbnail}
+                            style={{
+                              pointerEvents: index === currentMediaIndex ? 'auto' : 'none'
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              console.log('Video thumbnail clicked:', item.src, 'Index:', index, 'Current:', currentMediaIndex)
+                              openVideoModal(item.src)
+                            }}
+                          >
                             {item.thumbnail ? (
                               <img
                                 src={item.thumbnail}
@@ -403,14 +429,9 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
                               className={css.playButton}
                               onClick={(e) => {
                                 e.stopPropagation()
-                                // Find the exact video in videoItems array by comparing the src
-                                const videoIndex = videoItems.findIndex((v: MediaItem) => v.src === item.src)
-                                console.log('Clicked video:', item.src, 'Index:', videoIndex, 'Total videos:', videoItems.length)
-                                if (videoIndex !== -1) {
-                                  openVideoModal(videoIndex)
-                                }
+                                console.log('Play button clicked for video:', item.src)
+                                openVideoModal(item.src)
                               }}
-                              aria-label={TEXTS.playVideo?.[language] || 'Play video'}
                             >
                               <i className="fas fa-play"></i>
                             </button>
@@ -429,6 +450,7 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
                         className={`${css.carouselButton} ${css.prev}`}
                         onClick={handlePrevMedia}
                         aria-label="Previous media"
+                        style={{ zIndex: 20 }}
                       >
                         <i className="fas fa-chevron-left"></i>
                       </button>
@@ -436,10 +458,11 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
                         className={`${css.carouselButton} ${css.next}`}
                         onClick={handleNextMedia}
                         aria-label="Next media"
+                        style={{ zIndex: 20 }}
                       >
                         <i className="fas fa-chevron-right"></i>
                       </button>
-                      <div className={css.carouselIndicators}>
+                      <div className={css.carouselIndicators} style={{ zIndex: 20 }}>
                         {mediaItems.map((item: MediaItem, index: number) => (
                           <button
                             key={index}
@@ -466,7 +489,7 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
 
               {/* Category/Service info overlay */}
               {mediaItems.length > 0 && mediaItems[currentMediaIndex]?.source && (
-                <div className={css.imageOverlay}>
+                <div className={css.imageOverlay} style={{ zIndex: 15 }}>
                   <h3>{mediaItems[currentMediaIndex].source.name[language]}</h3>
                   <p>{mediaItems[currentMediaIndex].source.description?.[language]}</p>
                 </div>
@@ -617,18 +640,23 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
             </button>
 
             <div className={css.videoWrapper}>
-              <video
-                ref={videoRef}
-                key={videoItems[currentVideoIndex]?.src} // Force re-mount on video change
-                src={videoItems[currentVideoIndex]?.src}
-                className={css.modalVideo}
-                autoPlay
-                muted={isVideoMuted}
-                playsInline
-                onClick={toggleVideoPlayback}
-                onPlay={() => setIsVideoPlaying(true)}
-                onPause={() => setIsVideoPlaying(false)}
-              />
+              {currentVideoSrc && (
+                <video
+                  ref={videoRef}
+                  key={`video-${currentVideoSrc}`}
+                  src={currentVideoSrc}
+                  className={css.modalVideo}
+                  autoPlay
+                  muted={isVideoMuted}
+                  playsInline
+                  onClick={toggleVideoPlayback}
+                  onPlay={() => setIsVideoPlaying(true)}
+                  onPause={() => setIsVideoPlaying(false)}
+                  onLoadedData={() => {
+                    console.log('Video loaded:', currentVideoSrc)
+                  }}
+                />
+              )}
             </div>
 
             <div className={css.videoControls}>
@@ -655,10 +683,10 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
 
             {videoItems.length > 1 && (
               <div className={css.videoIndicators}>
-                {videoItems.map((_: MediaItem, index: number) => (
+                {videoItems.map((video: MediaItem, index: number) => (
                   <span
                     key={index}
-                    className={`${css.videoIndicator} ${index === currentVideoIndex ? css.active : ''}`}
+                    className={`${css.videoIndicator} ${video.src === currentVideoSrc ? css.active : ''}`}
                   />
                 ))}
               </div>
