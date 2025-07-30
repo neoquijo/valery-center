@@ -200,7 +200,8 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "en": "Therapeutic massage is a specialized technique focused on treating musculoskeletal issues, relieving chronic pain, and improving mobility. Using targeted pressure and medical knowledge, it helps rehabilitate injuries, reduce inflammation, and restore normal function to affected areas."
         },
         "videos": [
-          "/video/terapeutic_massage1.mp4"
+          "/video/terapeutic_massage1.mp4",
+          "/video/terapeutic_massage2.mp4"
         ]
       },
       {
@@ -229,7 +230,8 @@ export const SERVICES_DATA: ServiceCategory[] = [
         },
         "videos": [
           "/video/relaxing_massage1.mp4",
-          "/video/relaxing_massage2.mp4"
+          "/video/relaxing_massage2.mp4",
+          "/video/relax_massage.mp4"
         ]
       },
       {
@@ -241,7 +243,10 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "description": {
           "ru": "Лимфодренажный массаж стимулирует циркуляцию лимфы, ускоряет выведение токсинов и избыточной жидкости из тканей. Особенно эффективен при отёках, после операций, для укрепления иммунитета и детоксикации организма.",
           "en": "Gentle rhythmic technique that stimulates lymph flow to eliminate toxins, reduce swelling, and boost immune function. Ideal for post-surgical recovery, edema management, and detoxification programs."
-        }
+        },
+        videos: [
+          "/video/limfadrenage1.mp4"
+        ]
       },
       {
         "id": "anticellulite",
@@ -252,7 +257,10 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "description": {
           "ru": "Интенсивный массаж, разрушающий жировые отложения и улучшающий микроциркуляцию в проблемных зонах. Комбинация глубокого разминания, вакуумных и роликовых техник для уменьшения «апельсиновой корки» и коррекции контуров тела.",
           "en": "Deep tissue technique targeting cellulite deposits through specialized kneading, vacuum, and rolling methods. Improves skin texture, breaks down fat clusters, and enhances blood flow to problem areas for visible contouring results."
-        }
+        },
+        videos: [
+          "/video/anticelulitic_massage.MP4"
+        ]
       },
       {
         "id": "sports",
@@ -263,7 +271,13 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "description": {
           "ru": "Специализированный массаж для спортсменов: повышает выносливость перед тренировкой, ускоряет восстановление после нагрузок, предотвращает травмы. Фокусируется на проработке мышц, участвующих в конкретном виде спорта.",
           "en": "Performance-focused treatment that prepares muscles for activity, prevents injuries, and enhances recovery. Incorporates dynamic stretching, deep tissue work, and targeted techniques adapted to specific sports disciplines."
-        }
+        },
+        videos: [
+          "/video/sport_massage.mp4",
+          "/video/sport_massage2.mp4",
+          "/video/sport_massage3.mp4",
+          "/video/sport_massage4.mp4"
+        ]
       },
       {
         "id": "back",
@@ -274,19 +288,26 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "description": {
           "ru": "Глубокая проработка мышц спины для снятия напряжения в позвоночнике, устранения болей в пояснице и между лопатками. Включает техники миофасциального релиза и работу с триггерными точками.",
           "en": "Concentrated treatment for the back muscles, relieving spinal tension and targeting common pain areas like lower back and shoulder blades. Uses myofascial release and trigger point therapy for lasting relief."
-        }
-      },
-      {
-        "id": "back-legs",
-        "name": {
-          "ru": "Спина и ноги",
-          "en": "Back and Legs"
         },
-        "description": {
-          "ru": "Комплексная проработка спины и ног для снятия усталости, улучшения осанки и уменьшения отёчности нижних конечностей. Особенно рекомендован при сидячем образе жизни и повышенных нагрузках на ноги.",
-          "en": "Combination therapy addressing back strain and leg fatigue simultaneously. Ideal for desk workers and active individuals, it improves posture, reduces swelling in lower extremities, and enhances mobility."
-        }
+        videos: [
+          '/video/back_massage.mp4',
+          '/video/back_massage2.mp4',
+          '/video/back_massage3.MP4',
+          '/video/back_massage4.mp4',
+          '/video/back_massage5.mp4'
+        ]
       },
+      // {
+      //   "id": "back-legs",
+      //   "name": {
+      //     "ru": "Спина и ноги",
+      //     "en": "Back and Legs"
+      //   },
+      //   "description": {
+      //     "ru": "Комплексная проработка спины и ног для снятия усталости, улучшения осанки и уменьшения отёчности нижних конечностей. Особенно рекомендован при сидячем образе жизни и повышенных нагрузках на ноги.",
+      //     "en": "Combination therapy addressing back strain and leg fatigue simultaneously. Ideal for desk workers and active individuals, it improves posture, reduces swelling in lower extremities, and enhances mobility."
+      //   }
+      // },
       {
         "id": "legs",
         "name": {
@@ -296,7 +317,12 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "description": {
           "ru": "Специализированный массаж для снятия тяжести в ногах, улучшения венозного оттока и профилактики варикоза. Включает дренажные техники, проработку икроножных мышц и стоп.",
           "en": "Targeted treatment for tired, heavy legs that improves venous circulation and reduces swelling. Includes specialized techniques for calves, thighs, and feet to combat fatigue and prevent varicose veins."
-        }
+        },
+        videos: [
+          '/video/legs_massage.mp4',
+          '/video/feet_massage.mp4',
+          '/video/legs_massage3.mp4'
+        ]
       }
     ]
   },
@@ -326,55 +352,10 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "/video/HifuSmasLifting1.mp4"
         ]
       },
-      {
-        "id": "photorejuvenation",
-        "name": {
-          "ru": "Фотоомоложение",
-          "en": "Photorejuvenation"
-        },
-        "description": {
-          "ru": "Лечение IPL-светом устраняет пигментацию, сосудистые сеточки и признаки фотостарения. Активизирует синтез коллагена, выравнивает тон и текстуру кожи. Без повреждения поверхностного слоя.",
-          "en": "IPL technology targets pigmentation, broken capillaries, and sun damage while stimulating collagen. Improves skin tone and texture with minimal discomfort and no surface damage."
-        }
-      },
-      {
-        "id": "pigmentation",
-        "name": {
-          "ru": "Профилактика гиперпигментации",
-          "en": "Hyperpigmentation Prevention"
-        },
-        "description": {
-          "ru": "Программа предупреждения появления пигментных пятен с помощью лазерных технологий и депигментирующих препаратов. Осветляет существующие пятна, защищает от УФ-повреждений.",
-          "en": "Proactive approach to prevent dark spots using laser treatments and depigmenting agents. Targets existing discoloration while providing UV protection for future prevention."
-        }
-      },
-      {
-        "id": "carbon-peeling",
-        "name": {
-          "ru": "Карбоновый пилинг",
-          "en": "Carbon Peeling"
-        },
-        "description": {
-          "ru": "Бесконтактная лазерная процедура: углеродная маска поглощает лазерное излучение, удаляя загрязнения и омертвевшие клетки. Сужает поры, осветляет тон кожи, устраняет акне.",
-          "en": "Revolutionary laser treatment where carbon lotion absorbs laser energy to exfoliate deeply. Minimizes pores, treats acne, and brightens complexion with no downtime."
-        },
-        "videos": [
-          "/video/1.mp4",
-          "/video/carbon_peeling.mp4",
-          "/video/carbon_peel_interview.mp4"
-        ]
-      },
-      {
-        "id": "radiofrequency",
-        "name": {
-          "ru": "Радиочастота",
-          "en": "Radiofrequency"
-        },
-        "description": {
-          "ru": "Глубокий прогрев тканей радиочастотами стимулирует неоколлагенез и липолиза. Подтягивает овал лица, уменьшает морщины, корректирует контуры тела и локальные жировые отложения.",
-          "en": "Safe thermal energy tightens skin by stimulating collagen and elastin production. Effective for facial contouring, wrinkle reduction, and body sculpting through controlled tissue heating."
-        }
-      },
+
+      //TODO
+
+
       {
         "id": "cavitation",
         "name": {
@@ -386,7 +367,8 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "en": "Non-invasive fat reduction using ultrasonic waves to disrupt fat cell membranes. Targets stubborn areas like abdomen and thighs, with results improving over multiple sessions."
         },
         "videos": [
-          "/video/ultrasonic_cavitation1.mp4"
+          "/video/ultrasonic_cavitation1.mp4",
+          "/video/limfa1.mp4"
         ]
       }
     ]
@@ -415,7 +397,11 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "en": "Non-surgical facelift combining HIFU for skin tightening and SMAS technology for deep structural lifting. Stimulates collagen production for natural-looking rejuvenation with zero downtime."
         },
         "videos": [
-          "/video/HifuSmasLifting1.mp4"
+          // "/video/HifuSmasLifting1.mp4",
+          "/video/hifu_eng.mp4",
+          "/video/hifu_face.MP4",
+          "/video/hifu_eyes.mp4",
+          "/video/hifu_neck.mp4"
         ]
       },
       {
@@ -427,7 +413,13 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "description": {
           "ru": "Лечение IPL-светом устраняет пигментацию, сосудистые сеточки и признаки фотостарения. Активизирует синтез коллагена, выравнивает тон и текстуру кожи. Без повреждения поверхностного слоя.",
           "en": "IPL technology targets pigmentation, broken capillaries, and sun damage while stimulating collagen. Improves skin tone and texture with minimal discomfort and no surface damage."
-        }
+        },
+        images: [
+          '/img/Photorejuvenation1.jpg'
+        ],
+        videos: [
+          '/video/Photorejuvenation1.mp4'
+        ]
       },
       {
         "id": "couperose",
@@ -440,7 +432,8 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "en": "Specialized program to strengthen capillary walls and reduce redness. Combines laser treatments, cryotherapy, and vascular-strengthening products for resilient, even-toned skin."
         },
         "videos": [
-          "/video/cuperose_prevention1.mp4"
+          "/video/cuperose_prevention1.mp4",
+          '/video/cuperosis_prevention2.mp4'
         ]
       },
       {
@@ -473,13 +466,18 @@ export const SERVICES_DATA: ServiceCategory[] = [
       {
         "id": "radiofrequency",
         "name": {
-          "ru": "Радиочастота",
+          "ru": "Радиофрикуенсия",
           "en": "Radiofrequency"
         },
         "description": {
           "ru": "Глубокий прогрев тканей радиочастотами стимулирует неоколлагенез и липолиза. Подтягивает овал лица, уменьшает морщины, корректирует контуры тела и локальные жировые отложения.",
           "en": "Safe thermal energy tightens skin by stimulating collagen and elastin production. Effective for facial contouring, wrinkle reduction, and body sculpting through controlled tissue heating."
-        }
+        },
+        videos: [
+          '/video/radiofrequency.mp4',
+          '/video/radioFrequency.mp4'
+        ],
+
       },
       {
         "id": "cavitation",
@@ -492,7 +490,7 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "en": "Non-invasive fat reduction using ultrasonic waves to disrupt fat cell membranes. Targets stubborn areas like abdomen and thighs, with results improving over multiple sessions."
         },
         "videos": [
-          "/video/ultrasonic_cavitation1.mp4"
+          "/video/ultrasonic_quavitation.mp4"
         ]
       }
     ]
@@ -541,15 +539,17 @@ export const SERVICES_DATA: ServiceCategory[] = [
       {
         "id": "facial-cleansing",
         "name": {
-          "ru": "Чистка лица",
-          "en": "Facial Cleansing"
+          "ru": "Ультразвуковая и дермоабразивная чистка лица",
+          "en": "Ultrasonic and dermabrasion facial cleansing"
         },
         "description": {
           "ru": "Профессиональная чистка лица: комбинирует механическое удаление комедонов, ультразвуковую обработку и ферментный пилинг. Завершается успокаивающей маской и специализированным уходом.",
           "en": "Deep pore cleansing combining extraction, ultrasonic exfoliation, and enzymatic treatments. Removes impurities, blackheads, and dead cells for clear, balanced skin."
         },
         "videos": [
-          "/video/face_cleansing.mp4"
+          "/video/face_cleansing.mp4",
+          "/video/face_clerasing.mp4",
+          "/video/face_cleansing.MP4"
         ]
       },
       {
@@ -565,7 +565,8 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "videos": [
           "/video/kobido_massage1.MP4",
           "/video/kobido_massage2.mp4",
-          "/video/kobido_massage3.mp4"
+          "/video/kobido_massage3.mp4",
+          "/video/another_kobido.mp4"
         ]
       },
       {
@@ -611,67 +612,67 @@ export const SERVICES_DATA: ServiceCategory[] = [
       }
     ]
   },
-  {
-    "id": "body-hardware",
-    "name": {
-      "ru": "АППАРАТНЫЕ ПРОЦЕДУРЫ ДЛЯ ТЕЛА",
-      "en": "HARDWARE BODY TREATMENTS"
-    },
-    "description": {
-      "ru": "Современные технологии коррекции фигуры и омоложения тела",
-      "en": "Modern technologies for body contouring and rejuvenation"
-    },
-    "icon": "fas fa-dumbbell",
-    "subcategories": [
-      {
-        "id": "body-hifu",
-        "name": {
-          "ru": "HifuSmasLifting",
-          "en": "HifuSmasLifting"
-        },
-        "description": {
-          "ru": "Ультразвуковой лифтинг для тела: подтягивает кожу на животе, бёдрах, руках. Укрепляет соединительную ткань, стимулирует неоколлагенез. Результат — более упругая и подтянутая кожа.",
-          "en": "Ultrasound technology tightens loose skin on body areas like abdomen and arms. Stimulates collagen in deeper layers for improved firmness without surgery."
-        }
-      },
-      {
-        "id": "cavitation-vacuum",
-        "name": {
-          "ru": "Кавитация + вакуумный массаж",
-          "en": "Cavitation + Vacuum Massage"
-        },
-        "description": {
-          "ru": "Комбинированная процедура: ультразвук разрушает жировые клетки, а вакуумный массаж ускоряет выведение продуктов распада и моделирует контуры тела. Усиливает эффект на 40%.",
-          "en": "Powerful combination: cavitation breaks down fat cells while vacuum massage enhances lymphatic drainage. Synergistic approach for optimal body sculpting results."
-        }
-      },
-      {
-        "id": "amplipulse",
-        "name": {
-          "ru": "Амплипульс терапия",
-          "en": "Amplipulse Therapy"
-        },
-        "description": {
-          "ru": "Физиотерапевтическая методика с применением синусоидальных токов. Снимает боли в спине и суставах, уменьшает воспаление, улучшает трофику тканей. Безболезненна и безопасна.",
-          "en": "Electrotherapy using modulated currents to relieve pain, reduce inflammation, and improve tissue nutrition. Effective for musculoskeletal rehabilitation without medication."
-        },
-        "videos": [
-          "/video/amplipulse_therapy1.mp4"
-        ]
-      },
-      {
-        "id": "electrophoresis",
-        "name": {
-          "ru": "Электрофорез",
-          "en": "Electrophoresis"
-        },
-        "description": {
-          "ru": "Безинъекционное введение лечебных препаратов через кожу с помощью гальванического тока. Усиливает действие лекарств, снимает отёки, ускоряет восстановление после травм.",
-          "en": "Non-invasive drug delivery technique using electric current. Enhances absorption of therapeutic substances for targeted treatment of inflammation and pain."
-        }
-      }
-    ]
-  },
+  // {
+  //   "id": "body-hardware",
+  //   "name": {
+  //     "ru": "АППАРАТНЫЕ ПРОЦЕДУРЫ ДЛЯ ТЕЛА",
+  //     "en": "HARDWARE BODY TREATMENTS"
+  //   },
+  //   "description": {
+  //     "ru": "Современные технологии коррекции фигуры и омоложения тела",
+  //     "en": "Modern technologies for body contouring and rejuvenation"
+  //   },
+  //   "icon": "fas fa-dumbbell",
+  //   "subcategories": [
+  //     {
+  //       "id": "body-hifu",
+  //       "name": {
+  //         "ru": "HifuSmasLifting",
+  //         "en": "HifuSmasLifting"
+  //       },
+  //       "description": {
+  //         "ru": "Ультразвуковой лифтинг для тела: подтягивает кожу на животе, бёдрах, руках. Укрепляет соединительную ткань, стимулирует неоколлагенез. Результат — более упругая и подтянутая кожа.",
+  //         "en": "Ultrasound technology tightens loose skin on body areas like abdomen and arms. Stimulates collagen in deeper layers for improved firmness without surgery."
+  //       }
+  //     },
+  //     {
+  //       "id": "cavitation-vacuum",
+  //       "name": {
+  //         "ru": "Кавитация + вакуумный массаж",
+  //         "en": "Cavitation + Vacuum Massage"
+  //       },
+  //       "description": {
+  //         "ru": "Комбинированная процедура: ультразвук разрушает жировые клетки, а вакуумный массаж ускоряет выведение продуктов распада и моделирует контуры тела. Усиливает эффект на 40%.",
+  //         "en": "Powerful combination: cavitation breaks down fat cells while vacuum massage enhances lymphatic drainage. Synergistic approach for optimal body sculpting results."
+  //       }
+  //     },
+  //     {
+  //       "id": "amplipulse",
+  //       "name": {
+  //         "ru": "Амплипульс терапия",
+  //         "en": "Amplipulse Therapy"
+  //       },
+  //       "description": {
+  //         "ru": "Физиотерапевтическая методика с применением синусоидальных токов. Снимает боли в спине и суставах, уменьшает воспаление, улучшает трофику тканей. Безболезненна и безопасна.",
+  //         "en": "Electrotherapy using modulated currents to relieve pain, reduce inflammation, and improve tissue nutrition. Effective for musculoskeletal rehabilitation without medication."
+  //       },
+  //       "videos": [
+  //         "/video/amplipulse_therapy1.mp4"
+  //       ]
+  //     },
+  //     {
+  //       "id": "electrophoresis",
+  //       "name": {
+  //         "ru": "Электрофорез",
+  //         "en": "Electrophoresis"
+  //       },
+  //       "description": {
+  //         "ru": "Безинъекционное введение лечебных препаратов через кожу с помощью гальванического тока. Усиливает действие лекарств, снимает отёки, ускоряет восстановление после травм.",
+  //         "en": "Non-invasive drug delivery technique using electric current. Enhances absorption of therapeutic substances for targeted treatment of inflammation and pain."
+  //       }
+  //     }
+  //   ]
+  // },
   {
     "id": "hair-removal",
     "name": {
@@ -722,7 +723,8 @@ export const SERVICES_DATA: ServiceCategory[] = [
         },
         "videos": [
           "/video/face_epil1.mp4",
-          "/video/face_epil2.mp4"
+          "/video/face_epil2.mp4",
+          "/video/led_laser_epil.mp4"
         ]
       }
     ]
@@ -956,7 +958,8 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "en": "Custom lash extensions applied individually. Choose volume, length, and curl for natural or dramatic effect. Refills every 3-4 weeks."
         },
         "videos": [
-          "/video/ext_lashes1.mp4"
+          "/video/ext_lashes1.mp4",
+          "/video/lashes1.mp4"
         ]
       }
     ]

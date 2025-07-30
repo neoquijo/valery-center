@@ -13,7 +13,8 @@
 }
 
 .image {
-  width: 90vw;
+  width: 60vw;
+  max-height: 60vh;
 }
 
 .preloader.loaded {
