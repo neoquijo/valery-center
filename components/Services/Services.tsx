@@ -604,12 +604,12 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
               )}
 
               {/* Category/Service info overlay */}
-              {mediaItems.length > 0 && mediaItems[currentMediaIndex]?.source && (
+              {/* {mediaItems.length > 0 && mediaItems[currentMediaIndex]?.source && (
                 <div className={css.imageOverlay} style={{ zIndex: 15 }}>
                   <h3>{mediaItems[currentMediaIndex].source.name[language]}</h3>
                   <p>{mediaItems[currentMediaIndex].source.description?.[language]}</p>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
 

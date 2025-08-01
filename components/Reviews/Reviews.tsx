@@ -96,6 +96,92 @@ const REVIEWS_DATA: Review[] = [
     },
     avatar: "KJ",
   },
+
+  {
+    "id": "5",
+    "name": {
+      "ru": "Александра Шаламай",
+      "en": "Alexandra Shalamay"
+    },
+    "text": {
+      "ru": "Отличное место, делала маникюр у мастера Екатерины, осталась очень довольна. В целом атмосфера приятная, приветливый и дружный коллектив!",
+      "en": "Great place, had a manicure with master Ekaterina, was very pleased. Overall a pleasant atmosphere, friendly and united team!"
+    },
+    "rating": 5,
+    "date": {
+      "ru": "год назад",
+      "en": "a year ago"
+    },
+    "avatar": "AS"
+  },
+  {
+    "id": "6",
+    "name": {
+      "ru": "Наталина Смирнова",
+      "en": "Natalina Smirnova"
+    },
+    "text": {
+      "ru": "5 ЗВЁЗД!!! Сегодня была на процедуре массаж терапевтический и гидромассаж...просто обалденно!!!! Чувствую себя как 10 лет моложе, всё тело отозвалось только положительными ощущениями!",
+      "en": "5 STARS!!! Had therapeutic massage and hydromassage today... absolutely amazing!!!! I feel 10 years younger, the whole body responded with only positive sensations!"
+    },
+    "rating": 5,
+    "date": {
+      "ru": "год назад",
+      "en": "a year ago"
+    },
+    "avatar": "NS"
+  },
+  {
+    "id": "7",
+    "name": {
+      "ru": "Иван Бошняк",
+      "en": "Ivan Boshnyak"
+    },
+    "text": {
+      "ru": "Очень хороший салон! Дружный отзывчивый коллектив. Был первый раз, постригся, вернусь обязательно ещё. РЕКОМЕНДУЮ!",
+      "en": "Very good salon! Friendly and responsive team. It was my first time, got a haircut, and I’ll definitely be back. RECOMMEND!",
+    },
+    "rating": 5,
+    "date": {
+      "ru": "год назад",
+      "en": "a year ago"
+    },
+    "avatar": "IB"
+  },
+  {
+    "id": "8",
+    "name": {
+      "ru": "Piligrim Europa",
+      "en": "Piligrim Europa"
+    },
+    "text": {
+      "ru": "Всем рекомендую массаж лица, просто бомбический!!!",
+      "en": "I recommend the facial massage to everyone, it's just awesome!!!"
+    },
+    "rating": 5,
+    "date": {
+      "ru": "год назад",
+      "en": "a year ago"
+    },
+    "avatar": "PE"
+  },
+  {
+    "id": "9",
+    "name": {
+      "ru": "Галина Пыченко",
+      "en": "Galina Pychenko"
+    },
+    "text": {
+      "ru": "Выбрала маникюр+педикюр+стрижка в подарок. Замечательный коллектив: Вероника на ресепшен поговорит с вами на нескольких языках, профессиональные мастерицы. Очень довольна визитом!",
+      "en": "Chose manicure + pedicure + haircut as a gift. Wonderful team: Veronika at reception speaks several languages, professional masters. Very happy with my visit!"
+    },
+    "rating": 5,
+    "date": {
+      "ru": "8 месяцев назад",
+      "en": "8 months ago"
+    },
+    "avatar": "GP"
+  }
 ]
 
 export const Reviews: React.FC<ReviewsProps> = ({ language }) => {
