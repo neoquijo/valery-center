@@ -183,25 +183,22 @@ export const SERVICES_DATA: ServiceCategory[] = [
       "ru": "МАССАЖ",
       "en": "MASSAGE"
     },
-    "description": {
-      "ru": "Терапевтический, расслабляющий и лимфодренажный массаж от опытных специалистов",
-      "en": "Therapeutic, relaxing and lymphatic drainage massage from experienced specialists"
-    },
+
     "icon": "fas fa-spa",
     "subcategories": [
       {
         "id": "therapeutic",
         "name": {
-          "ru": "Терапевтический",
-          "en": "Therapeutic"
+          "ru": "Лечебный массаж",
+          "en": "Healing massage"
         },
         "description": {
-          "ru": "Терапевтический массаж — это эффективный метод лечения и профилактики различных заболеваний опорно-двигательного аппарата, нервной и мышечной систем. В отличие от расслабляющего массажа, терапевтический направлен на устранение болевых синдромов, улучшение кровообращения, снятие мышечных спазмов и восстановление подвижности.",
-          "en": "Therapeutic massage is a specialized technique focused on treating musculoskeletal issues, relieving chronic pain, and improving mobility. Using targeted pressure and medical knowledge, it helps rehabilitate injuries, reduce inflammation, and restore normal function to affected areas."
+          "ru": "Лечебный массаж — это эффективный метод лечения и профилактики различных заболеваний опорно-двигательного аппарата, нервной и мышечной систем. В отличие от расслабляющего массажа, терапевтический направлен на устранение болевых синдромов, улучшение кровообращения, снятие мышечных спазмов и восстановление подвижности.",
+          "en": "Healing massage is a specialized technique focused on treating musculoskeletal issues, relieving chronic pain, and improving mobility. Using targeted pressure and medical knowledge, it helps rehabilitate injuries, reduce inflammation, and restore normal function to affected areas."
         },
         "videos": [
           "/video/terapeutic_massage1.mp4",
-          "/video/terapeutic_massage2.mp4"
+          '/video/back_massage3.MP4',
         ]
       },
       {
@@ -215,7 +212,9 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "en": "Vacuum massage is an effective technique aimed at improving lymphatic and blood circulation, speeding up metabolism, and detoxifying the body. It helps fight cellulite, improves skin tone, reduces swelling, and promotes overall health."
         },
         "videos": [
-          "/video/vacuum_massage1.mp4"
+          "/video/vacuum_massage1.mp4",
+          "/video/v.MP4",
+          "/video/v2.MP4"
         ]
       },
       {
@@ -230,8 +229,11 @@ export const SERVICES_DATA: ServiceCategory[] = [
         },
         "videos": [
           "/video/relaxing_massage1.mp4",
-          "/video/relaxing_massage2.mp4",
-          "/video/relax_massage.mp4"
+          // "/video/relaxing_massage2.mp4",
+          "/video/relax_massage.mp4",
+          "/video/terapeutic_massage2.mp4",
+          "/video/sport_massage.mp4",
+          '/video/back_massage5.mp4'
         ]
       },
       {
@@ -245,7 +247,9 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "en": "Gentle rhythmic technique that stimulates lymph flow to eliminate toxins, reduce swelling, and boost immune function. Ideal for post-surgical recovery, edema management, and detoxification programs."
         },
         videos: [
-          "/video/limfadrenage1.mp4"
+          "/video/limfadrenage1.mp4",
+          "/video/v.MP4",
+          "/video/v2.MP4"
         ]
       },
       {
@@ -273,8 +277,8 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "en": "Performance-focused treatment that prepares muscles for activity, prevents injuries, and enhances recovery. Incorporates dynamic stretching, deep tissue work, and targeted techniques adapted to specific sports disciplines."
         },
         videos: [
-          "/video/sport_massage.mp4",
-          "/video/sport_massage2.mp4",
+          // "/video/sport_massage.mp4", -- перенёс в расслаб
+          // "/video/sport_massage2.mp4",
           "/video/sport_massage3.mp4",
           "/video/sport_massage4.mp4"
         ]
@@ -292,9 +296,9 @@ export const SERVICES_DATA: ServiceCategory[] = [
         videos: [
           '/video/back_massage.mp4',
           '/video/back_massage2.mp4',
-          '/video/back_massage3.MP4',
+          // '/video/back_massage3.MP4', Перенёс в лечебный
           '/video/back_massage4.mp4',
-          '/video/back_massage5.mp4'
+          // '/video/back_massage5.mp4' Перенёс в расслабляющий
         ]
       },
       // {
@@ -369,6 +373,34 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "videos": [
           "/video/ultrasonic_cavitation1.mp4",
           "/video/limfa1.mp4"
+        ]
+      },
+      {
+        "id": "electrophoresis",
+        "name": {
+          "ru": "Электрофорез",
+          "en": "Electrophoresis"
+        },
+        "description": {
+          "ru": "Метод введения лекарственных веществ через кожу с помощью постоянного электрического тока. Улучшает проникновение препаратов, снижает воспаление и ускоряет восстановление тканей.",
+          "en": "A therapy that delivers medicinal substances through the skin using a constant electric current. Enhances drug absorption, reduces inflammation, and speeds up tissue recovery."
+        },
+        images: [
+          '/img/electrophoresis.jpg'
+        ]
+      },
+      {
+        "id": "amplipulse",
+        "name": {
+          "ru": "Амплипульсная терапия",
+          "en": "Amplipulse Therapy"
+        },
+        "description": {
+          "ru": "Физиотерапевтический метод с использованием синусоидально-модулированных токов. Обладает обезболивающим, противовоспалительным и спазмолитическим действием, улучшает кровообращение.",
+          "en": "Physiotherapy method using sinusoidal modulated currents. Provides pain relief, anti-inflammatory effects, muscle relaxation, and improves blood circulation."
+        },
+        videos: [
+          '/video/amplipulse1.mp4'
         ]
       }
     ]
@@ -445,7 +477,13 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "description": {
           "ru": "Программа предупреждения появления пигментных пятен с помощью лазерных технологий и депигментирующих препаратов. Осветляет существующие пятна, защищает от УФ-повреждений.",
           "en": "Proactive approach to prevent dark spots using laser treatments and depigmenting agents. Targets existing discoloration while providing UV protection for future prevention."
-        }
+        },
+        images: [
+          '/img/pigmentation_prevention.jpg'
+        ],
+        videos: [
+          "/video/hyper-prevention.mp4"
+        ]
       },
       {
         "id": "carbon-peeling",
@@ -835,6 +873,22 @@ export const SERVICES_DATA: ServiceCategory[] = [
       "en": "Manicure, pedicure and nail design"
     },
     "icon": "fas fa-hand-sparkles",
+    // images: [
+    //   "/m/5213350283525088345.jpg", "/m/5911424104261598723.jpg",
+    //   "/m/5213350283525088350.jpg", "/m/5927261993734093945.jpg",
+    //   "/m/5213350283525088353.jpg", "/m/5927261993734093946.jpg",
+    //   "/m/5235782704438570041.jpg", "/m/5956357828774051694.jpg",
+    //   "/m/5249020768602414230.jpg", "/m/5956357828774051695.jpg",
+    //   "/m/5249020768602414232.jpg", "/m/5956357828774051696.jpg",
+    //   "/m/5249020768602414233.jpg", "/m/5987535945563487461.jpg",
+    //   "/m/5312307919162832233.jpg", "/m/5987535945563487462.jpg",
+    //   "/m/5366440230967702817.jpg", "/m/5987535945563487463.jpg",
+    //   "/m/5821130199343941286.jpg", "/m/5987535945563487464.jpg",
+    //   "/m/5911424104261598719.jpg", "/m/5987535945563487465.jpg",
+    //   "/m/5911424104261598720.jpg", "/m/5987535945563487466.jpg",
+    //   "/m/5911424104261598721.jpg", "/m/5987535945563487467.jpg",
+    //   "/m/5911424104261598722.jpg", "/m/5987535945563487468.jpg"
+    // ],
     "subcategories": [
       {
         "id": "manicure-polish",
@@ -928,7 +982,11 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "description": {
           "ru": "Придание насыщенного оттенка бровям и ресницам с помощью гипоаллергенной краски. Эффект до 6 недель: визуально гуще, ярче, выразительнее.",
           "en": "Semi-permanent color enhances definition of brows and lashes. Lasts 4-6 weeks, creating fuller appearance without daily makeup."
-        }
+        },
+        images: [
+          "/brows/1.jpg",
+          "/brows/2.jpg"
+        ]
       },
       {
         "id": "brow-lash-lamination",
