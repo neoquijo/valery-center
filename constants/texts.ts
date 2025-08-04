@@ -53,8 +53,8 @@ export const TEXTS: Record<string, TextContent> = {
     en: "Beauty & Healthcare Center",
   },
   heroDescription: {
-    ru: "Профессиональный уход за телом и лицом в Orihuela Costa",
-    en: "Professional body and face care in Orihuela Costa",
+    ru: "Профессиональный уход за собой в Orihuela Costa",
+    en: "Professional  selfcare in Orihuela Costa",
   },
 
   // Navigation
@@ -199,6 +199,7 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "videos": [
           "/video/terapeutic_massage1.mp4",
           '/video/back_massage3.MP4',
+          '/video/healing_massage.MP4'
         ]
       },
       {
@@ -212,7 +213,7 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "en": "Vacuum massage is an effective technique aimed at improving lymphatic and blood circulation, speeding up metabolism, and detoxifying the body. It helps fight cellulite, improves skin tone, reduces swelling, and promotes overall health."
         },
         "videos": [
-          "/video/vacuum_massage1.mp4",
+          // "/video/vacuum_massage1.mp4",
           "/video/v.MP4",
           "/video/v2.MP4"
         ]
@@ -232,7 +233,7 @@ export const SERVICES_DATA: ServiceCategory[] = [
           // "/video/relaxing_massage2.mp4",
           "/video/relax_massage.mp4",
           "/video/terapeutic_massage2.mp4",
-          "/video/sport_massage.mp4",
+          // "/video/sport_massage.mp4", повторение
           '/video/back_massage5.mp4'
         ]
       },
@@ -248,8 +249,10 @@ export const SERVICES_DATA: ServiceCategory[] = [
         },
         videos: [
           "/video/limfadrenage1.mp4",
-          "/video/v.MP4",
-          "/video/v2.MP4"
+          "/video/ld1.MP4",
+          "/video/ld2.MP4"
+          // "/video/v.MP4",
+          // "/video/v2.MP4"
         ]
       },
       {
@@ -325,7 +328,10 @@ export const SERVICES_DATA: ServiceCategory[] = [
         videos: [
           '/video/legs_massage.mp4',
           '/video/feet_massage.mp4',
-          '/video/legs_massage3.mp4'
+          '/video/legs_massage3.mp4',
+          '/video/leg1.mp4',
+          '/video/leg2.mp4',
+          '/video/leg3.mp4',
         ]
       }
     ]
@@ -353,7 +359,8 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "en": "Non-surgical facelift combining HIFU for skin tightening and SMAS technology for deep structural lifting. Stimulates collagen production for natural-looking rejuvenation with zero downtime."
         },
         "videos": [
-          "/video/HifuSmasLifting1.mp4"
+          "/video/HifuSmasLifting1.mp4",
+          '/video/hifulifting1.MOV'
         ]
       },
 
@@ -372,7 +379,8 @@ export const SERVICES_DATA: ServiceCategory[] = [
         },
         "videos": [
           "/video/ultrasonic_cavitation1.mp4",
-          "/video/limfa1.mp4"
+          "/video/limfa1.mp4",
+          "/video/ultrasonic_legs.MOV"
         ]
       },
       {
@@ -400,7 +408,19 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "en": "Physiotherapy method using sinusoidal modulated currents. Provides pain relief, anti-inflammatory effects, muscle relaxation, and improves blood circulation."
         },
         videos: [
-          '/video/amplipulse1.mp4'
+          '/video/amplipulse1.mp4',
+          '/video/amplipulse2.mp4'
+        ]
+      },
+      {
+        id: 'body-tattoo',
+        name: {
+          ru: "Удаление татуировок",
+          en: "Tattoo removal"
+        },
+        videos: [
+          "/video/tattoo_remove1.mp4",
+          "/video/tattoo_remove2.mp4",
         ]
       }
     ]
@@ -433,7 +453,10 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "/video/hifu_eng.mp4",
           "/video/hifu_face.MP4",
           "/video/hifu_eyes.mp4",
-          "/video/hifu_neck.mp4"
+          "/video/hifu_neck.mp4",
+          "/video/hifuface.MOV",
+          "/video/hifuface2.MOV",
+          "/video/hifuface.mp4"
         ]
       },
       {
@@ -464,7 +487,7 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "en": "Specialized program to strengthen capillary walls and reduce redness. Combines laser treatments, cryotherapy, and vascular-strengthening products for resilient, even-toned skin."
         },
         "videos": [
-          "/video/cuperose_prevention1.mp4",
+          //"/video/cuperose_prevention1.mp4", перенесено в проф гиперпигментации
           '/video/cuperosis_prevention2.mp4'
         ]
       },
@@ -482,6 +505,7 @@ export const SERVICES_DATA: ServiceCategory[] = [
           '/img/pigmentation_prevention.jpg'
         ],
         videos: [
+          "/video/cuperose_prevention1.mp4",
           "/video/hyper-prevention.mp4"
         ]
       },
@@ -557,7 +581,9 @@ export const SERVICES_DATA: ServiceCategory[] = [
         },
         "videos": [
           "/video/dermapen1.mp4",
-          "/video/dermapen2.mp4"
+          "/video/dermapen2.mp4",
+          "/video/dermapen_review.MOV",
+          "/video/dermapen_review2.MOV",
         ]
       },
       {
@@ -587,7 +613,9 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "videos": [
           "/video/face_cleansing.mp4",
           "/video/face_clerasing.mp4",
-          "/video/face_cleansing.MP4"
+          "/video/face_cleansing.MP4",
+          "/video/face_cleansing1.MOV",
+          "/video/face_cleansing2.MOV"
         ]
       },
       {
@@ -630,7 +658,10 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "description": {
           "ru": "Мягкая техника стимуляции лимфотока для уменьшения отёчности и детоксикации кожи. Улучшает контуры лица, уменьшает «мешки» под глазами, придаёт сияние.",
           "en": "Gentle technique that activates lymphatic circulation to de-puff and detoxify. Reduces facial swelling, refines contours, and enhances natural radiance."
-        }
+        },
+        videos: [
+          "/video/limpho_drain.MP4"
+        ]
       },
       {
         "id": "thalgo-treatments",
@@ -747,7 +778,11 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "description": {
           "ru": "Традиционная восковая эпиляция с использованием гипоаллергенных составов. Обеспечивает гладкость кожи до 4 недель. Доступны горячий и холодный воск для разных зон.",
           "en": "Professional hair removal with hypoallergenic waxes for smooth skin lasting weeks. Customized hot/cold wax techniques for sensitive areas and hair types."
-        }
+        },
+        videos: [
+          "/video/vax_depil.MP4",
+          "/video/wax2.MOV"
+        ]
       },
       {
         "id": "face-epil",
@@ -778,9 +813,7 @@ export const SERVICES_DATA: ServiceCategory[] = [
       "en": "Haircuts, coloring and hair care treatments"
     },
     "icon": "fas fa-cut",
-    "images": [
-      "/placeholder.svg?height=300&width=400"
-    ],
+
     "subcategories": [
       {
         "id": "hair-coloring",
@@ -899,7 +932,13 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "description": {
           "ru": "Аппаратный или комбинированный маникюр с покрытием обычным лаком. Включает обработку кутикулы, придание формы ногтям, массаж рук и базовый дизайн.",
           "en": "Cuticle care, nail shaping, hand massage, and application of regular polish. Classic treatment for natural nails with optional simple nail art."
-        }
+        },
+        images: [
+          "/img/manicure_polish.jpg",
+          "/img/manicure_polish1.jpg",
+          "/img/manicure_polish2.jpg",
+          "/img/manicure_polish3.jpg"
+        ]
       },
       {
         "id": "manicure-gel",
@@ -910,7 +949,19 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "description": {
           "ru": "Гигиеническая обработка ногтей с нанесением стойкого гель-лака. Покрытие держится до 3 недель, сохраняя безупречный вид. Доступны все виды дизайна.",
           "en": "Long-lasting gel polish manicure with chip-free wear up to 3 weeks. Includes cuticle work, nail prep, and creative design options."
-        }
+        },
+        images: [
+          "/img/manicuregel1.jpg",
+          "/img/manicuregel2.jpg",
+          "/img/gel.jpg",
+          "/img/manicureGel.jpg",
+          "/img/gel2.jpg"
+        ],
+        videos: [
+          "/video/manicure_gel.MOV",
+          "/video/manicure_gel2.MOV",
+          "/video/manicure_gel3.MOV"
+        ]
       },
       {
         "id": "nail-extension",
@@ -921,7 +972,14 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "description": {
           "ru": "Создание идеальной длины и формы с помощью акрила, геля или полигеля. Коррекция каждые 3-4 недели. Возможность выбора формы: миндаль, квадрат, кофеин.",
           "en": "Creating length and shape with acrylic, hard gel, or polygel. Custom shapes (almond, square, coffin) with fills every 3-4 weeks for maintenance."
-        }
+        },
+        videos: [
+          '/video/nail_ext.mp4',
+          "/video/ext_nails1.mp4"
+        ],
+        images: [
+          "/img/nail_exten.jpg"
+        ]
       },
       {
         "id": "manicure-strengthening",
@@ -932,7 +990,11 @@ export const SERVICES_DATA: ServiceCategory[] = [
         "description": {
           "ru": "Процедура для ломких ногтей с использованием кератиновых пропиток и биогеля. Восстанавливает структуру ногтевой пластины, предотвращает расслоение.",
           "en": "Therapeutic treatment for weak nails featuring keratin infusions and biogel overlay. Strengthens natural nails while providing protective shine."
-        }
+        },
+        images: [
+          "/img/exten_reinforcement.jpg",
+          "/img/nail_reinforcment2.jpg"
+        ]
       },
       {
         "id": "pedicure-polish",
@@ -945,7 +1007,8 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "en": "Medical-grade foot care: callus removal, cuticle treatment, exfoliation, massage, and polish application. Focus on heel and nail health."
         },
         "videos": [
-          "/video/pedicure1.mp4"
+          "/video/pedicure1.mp4",
+
         ]
       },
       {
@@ -954,6 +1017,16 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "ru": "Педикюр + Gel",
           "en": "Pedicure + Gel"
         },
+        videos: [
+          "/video/manicure_gel.MOV",
+          "/video/pedicure_gel.MOV"
+        ],
+        images: [
+          "/img/pedicure_gel.jpg",
+          "/img/pedicure_gel1.jpg",
+          "/img/pedicure_gel3.jpg",
+          "/img/pedicure_gel4.jpg"
+        ],
         "description": {
           "ru": "SPA-педикюр с долговременным гель-покрытием. Включает ванночку, аппаратную обработку, парафинотерапию и массаж. Результат — ухоженные стопы на 4 недели.",
           "en": "Luxury pedicure featuring gel polish that lasts weeks. Includes soak, exfoliation, callus removal, mask, massage, and paraffin treatment."
@@ -985,7 +1058,9 @@ export const SERVICES_DATA: ServiceCategory[] = [
         },
         images: [
           "/brows/1.jpg",
-          "/brows/2.jpg"
+          "/brows/2.jpg",
+          "/img/brow_taining.jpg",
+          "/img/brow_taining2.jpg"
         ]
       },
       {
@@ -999,7 +1074,8 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "en": "Perming treatment for brows/lashes: sets shape for weeks. Brows stay groomed, lashes gain curl and length. Includes nourishing boost."
         },
         "images": [
-          "/img/lamination1.jpg"
+          "/img/lamination1.jpg",
+          "/img/brow_lamination.jpg"
         ],
         "videos": [
           "/video/lamination.mp4"
@@ -1080,7 +1156,7 @@ export const SERVICES_DATA: ServiceCategory[] = [
       {
         "id": "tattoo-removal",
         "name": {
-          "ru": "Удаление татуажа и татуировок",
+          "ru": "Удаление татуажа",
           "en": "Tattoo Removal"
         },
         "description": {
@@ -1088,9 +1164,7 @@ export const SERVICES_DATA: ServiceCategory[] = [
           "en": "Laser removal of unwanted PMU or tattoos. Q-switched technology targets ink particles safely. Multiple sessions for complete clearance."
         },
         "videos": [
-          "/video/tattoo_remove1.mp4",
           "/video/permanent_brow_remove1.mp4",
-          "/video/tattoo_remove2.mp4"
         ]
       }
     ]

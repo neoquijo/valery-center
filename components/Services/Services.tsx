@@ -526,10 +526,10 @@ export const Services: React.FC<ServicesProps> = ({ language }) => {
       </div>
 
       <div className={css.container}>
-        <div className={css.header}>
+        {/* <div className={css.header}>
           <p className={css.sectionSubtitle}>{TEXTS.services[language]}</p>
           <h2 className={css.sectionTitle}>{TEXTS.exclusiveTreatments[language]}</h2>
-        </div>
+        </div> */}
 
         <div className={css.splitLayout}>
           {/* Left Side - Media Section */}
