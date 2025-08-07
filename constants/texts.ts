@@ -340,7 +340,7 @@ export const SERVICES_DATA: ServiceCategory[] = [
     "id": "hardware-cosmetology",
     "name": {
       "ru": "АППАРАТНЫЕ ПРОЦЕДУРЫ ДЛЯ ТЕЛА",
-      "en": "HARDWARE COSMETOLOGY"
+      "en": "HARDWARE BODY COSMETOLOGY"
     },
     "description": {
       "ru": "Современные аппаратные процедуры для омоложения и коррекции",
